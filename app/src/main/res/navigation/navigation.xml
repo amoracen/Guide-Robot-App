@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="fau.amoracen.guiderobot.HomeFragment"
+        android:label=" "
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_regitrationFragment"
+            app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="fau.amoracen.guiderobot.RegistrationFragment"
+        android:label="Registration"
+        tools:layout="@layout/fragment_registration">
+        <action
+            android:id="@+id/action_registrationFragment_to_FirstLastNameFragment"
+            app:destination="@id/firstLastNameFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/firstLastNameFragment"
+        android:name="fau.amoracen.guiderobot.FirstLastNameFragment"
+        android:label="First Last Name Form"
+        tools:layout="@layout/fragment_first_last_name">
+        <action
+            android:id="@+id/action_firstLastNameFragment_to_RegistrationHeightFragment"
+            app:destination="@id/registrationHeightFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/registrationHeightFragment"
+        android:name="fau.amoracen.guiderobot.RegistrationHeightFragment"
+        android:label="Height"
+        tools:layout="@layout/fragment_registration_height">
+        <action
+            android:id="@+id/action_registrationHeightFragment_to_PasswordFragment"
+            app:destination="@id/passwordFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/passwordFragment"
+        android:name="fau.amoracen.guiderobot.PasswordFragment"
+        android:label="Password"
+        tools:layout="@layout/fragment_password">
+        <action
+            android:id="@+id/action_passwordFragment_to_DashboardActivity"
+            app:destination="@id/dashboardActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/dashboardActivity"
+        android:name="fau.amoracen.guiderobot.DashboardActivity"
+        android:label="Dashboard"
+        tools:layout="@layout/activity_dashboard">
+
+    </activity>
+
+    <activity
+        android:id="@+id/pairDeviceActivity"
+        android:name="fau.amoracen.guiderobot.PairDeviceActivity"
+        android:label="Pair Devices"
+        tools:layout="@layout/activity_pair_device">
+
+    </activity>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="fau.amoracen.guiderobot.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_LoginFragment_to_PasswordFragment"
+            app:destination="@id/passwordFragment" />
+    </fragment>
+
+
+</navigation>

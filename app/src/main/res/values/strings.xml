@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">GuideRobot</string>
+
+    <string name="welcome_msg">Welcome to the Guide Robot App</string>
+    <string name="welcome_description">Welcome to the Guide Robot App.Select between Creating a new Account or Login.</string>
+    <string name="create_account">Create Account</string>
+    <string name="create_account_description">Go to Create Account Form</string>
+    <string name="login">Login</string>
+    <string name="login_description">Go to Login Form</string>
+
+    <string name="enter_email">Enter Email</string>
+    <string name="next">Next</string>
+    <string name="next_page">Next Page</string>
+    <string name="need_help">Need Help?</string>
+    <string name="registration_form">Registration Form</string>
+    <string name="registration_fragment_lorem_ipsum">Registration Fragment Lorem ipsum …</string>
+    <string name="first_and_last_name_form_lorem_ipsum">First and Last Name Form_lorem_ipsum</string>
+    <string name="first_and_last_name_form">First and Last Name Form</string>
+    <string name="enter_first_name">Enter First Name</string>
+    <string name="enter_last_name">Enter Last Name</string>
+    <string name="height_form">Height Form</string>
+    <string name="feet">Feet</string>
+    <string name="enter_height_in_feet">Enter height in feet</string>
+    <string name="enter_height_in_inches">Enter height in inches</string>
+    <string name="inches">Inches</string>
+    <string name="feet_row">Feet Row</string>
+    <string name="inches_row">Inches Row</string>
+    <string name="got_to_help_screen">Got to Help Screen.</string>
+    <string name="password_form">Password Form</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="register">Register</string>
+    <string name="create_new_account">Create new Account</string>
+    <string name="login_form">Login Form</string>
+    <string name="login_form_lorem_ipsum">Login Form_lorem_ipsum</string>
+    <string name="submit">Submit</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="enable_bluetooth">Enable Bluetooth</string>
+    <string name="select_device_to_pair">Devices</string>
+    <string name="start_scanning">Start Scanning</string>
+    <string name="pair_to_device">Pair to Device</string>
+    <string name="scanning_in_progress">Scanning in Progress …</string>
+    <string name="scanning_completed">Scanning Completed</string>
+    <string name="bluetooth_is_disable">Bluetooth is Disable</string>
+    <string name="enter_command">Enter Command</string>
+    <string name="send">Send</string>
+    <string name="send_command_to_device">Send Command to Device</string>
+</resources>
