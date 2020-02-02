@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 public void onFinish() {
-                    //Counter is finished(after 1 seconds)
+                    //Counter is finished
                     Log.i("Done ", "CountDown Finished");
                     AccessibilityManager manager = (AccessibilityManager) getContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
                     if (manager != null && manager.isEnabled()) {
