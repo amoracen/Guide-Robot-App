@@ -9,6 +9,8 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="25dp"
+    android:focusable="false"
+    android:importantForAccessibility="no"
     tools:context=".HomeFragment">
 
     <androidx.cardview.widget.CardView
@@ -17,16 +19,16 @@
         android:contentDescription="@null"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:focusable="true"
         android:minWidth="50dp"
         android:minHeight="50dp">
 
         <TextView
             android:id="@+id/welcomeTextView"
-            android:focusable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/textview_border"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:contentDescription="@string/welcome_description"
             android:text="@string/welcome_msg"
             android:textAlignment="center"
@@ -43,6 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:focusable="true"
         android:background="@drawable/button_background"
         android:contentDescription="@string/create_account_description"
         android:minWidth="50dp"
@@ -56,6 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:focusable="true"
         android:background="@drawable/button_background"
         android:contentDescription="@string/login_description"
         android:minWidth="50dp"
