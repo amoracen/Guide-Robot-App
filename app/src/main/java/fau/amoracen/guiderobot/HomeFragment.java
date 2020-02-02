@@ -1,24 +1,29 @@
 package fau.amoracen.guiderobot;
 
+
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityManager;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-
-
+/**
+ * HomeFragment displays the button to Create Account and Login
+ */
 public class HomeFragment extends Fragment {
 
-    private TextView welcomeTextView;
+    private boolean buttonPressed = false;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -34,6 +39,7 @@ public class HomeFragment extends Fragment {
         buttonRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                buttonPressed = true;
                 Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_regitrationFragment, null);
             }
         });
@@ -42,19 +48,37 @@ public class HomeFragment extends Fragment {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                buttonPressed = true;
                 Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_loginFragment, null);
             }
         });
-
-        welcomeTextView = view.findViewById(R.id.welcomeTextView);
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        //welcomeTextView.requestFocus();
-        //welcomeTextView.setText("ok");
+    public void onResume() {
+        super.onResume();
+        if (buttonPressed) {
+            buttonPressed = false;
+            //Wait
+            new CountDownTimer(200, 1000) {
+                public void onTick(long millisecondsUntilDone) {
+                    //countdown every second
+                }
+
+                public void onFinish() {
+                    //Counter is finished(after 1 seconds)
+                    Log.i("Done ", "CountDown Finished");
+                    AccessibilityManager manager = (AccessibilityManager) getContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
+                    if (manager != null && manager.isEnabled()) {
+                        AccessibilityEvent e = AccessibilityEvent.obtain();
+                        e.setEventType(AccessibilityEvent.TYPE_ANNOUNCEMENT);
+                        e.setClassName(getClass().getName());
+                        e.setPackageName(getContext().getPackageName());
+                        e.getText().add(getString(R.string.welcome_msg));
+                        manager.sendAccessibilityEvent(e);
+                    }
+                }
+            }.start();
+        }
     }
-
-
 }
