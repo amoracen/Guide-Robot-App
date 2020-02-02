@@ -1,12 +1,5 @@
 package fau.amoracen.guiderobot;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
 import android.os.Build;
@@ -16,6 +9,13 @@ import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import java.util.List;
 import java.util.Locale;
@@ -87,13 +87,14 @@ public class MainActivity extends AppCompatActivity {
                     speak("Voice Assistance is not Enable.Please, Go to Settings and enable Voice Assistance.");
                 }
             }.start();
-            Toast.makeText(this,"Voice Assistance is not Enable",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Voice Assistance is not Enable", Toast.LENGTH_SHORT).show();
         }
     }
 
 
     /**
      * Reads a string to the user
+     *
      * @param text a string representing what to read to the user
      */
     public void speak(String text) {
