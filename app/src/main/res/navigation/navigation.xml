@@ -6,7 +6,8 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="fau.amoracen.guiderobot.HomeFragment"
-        android:label=" "
+        android:label="@string/app_name"
+        android:focusable="true"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_regitrationFragment"
@@ -19,6 +20,7 @@
         android:id="@+id/registrationFragment"
         android:name="fau.amoracen.guiderobot.RegistrationFragment"
         android:label="Registration"
+        android:focusable="true"
         tools:layout="@layout/fragment_registration">
         <action
             android:id="@+id/action_registrationFragment_to_FirstLastNameFragment"
