@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment {
         if (buttonPressed) {
             buttonPressed = false;
             //Wait
-            new CountDownTimer(200, 1000) {
+            new CountDownTimer(400, 1000) {
                 public void onTick(long millisecondsUntilDone) {
                     //countdown every second
                 }
