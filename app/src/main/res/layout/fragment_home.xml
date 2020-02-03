@@ -33,10 +33,10 @@
             android:text="@string/welcome_msg"
             android:textAlignment="center"
             android:padding="10dp"
-            android:textColor="#090808"
+            android:textColor="#000000"
             android:textSize="30sp"
             android:minWidth="50dp"
-            android:minHeight="75dp"
+            android:minHeight="50dp"
             android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
 
@@ -46,6 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:focusable="true"
+        android:focusableInTouchMode="true"
         android:background="@drawable/button_background"
         android:contentDescription="@string/create_account_description"
         android:minWidth="50dp"

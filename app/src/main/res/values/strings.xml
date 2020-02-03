@@ -7,13 +7,13 @@
     <string name="create_account_description">Go to Create Account Form</string>
     <string name="login">Login</string>
     <string name="login_description">Go to Login Form</string>
-
-    <string name="enter_email">Enter Email</string>
+    <string name="registration_form_description">Fill out the registration form.</string>
+    <string name="registration_form">New Account Registration Form</string>
     <string name="next">Next</string>
-    <string name="next_page">Next Page</string>
+    <string name="next_page">Go to Next Page</string>
+    <string name="enter_email">Enter Email</string>
+
     <string name="need_help">Need Help?</string>
-    <string name="registration_form">Registration Form</string>
-    <string name="registration_fragment_lorem_ipsum">Registration Fragment Lorem ipsum …</string>
     <string name="first_and_last_name_form_lorem_ipsum">First and Last Name Form_lorem_ipsum</string>
     <string name="first_and_last_name_form">First and Last Name Form</string>
     <string name="enter_first_name">Enter First Name</string>
