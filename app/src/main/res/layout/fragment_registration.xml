@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/registrationFragment"
     android:layout_width="match_parent"
@@ -41,22 +42,33 @@
             android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
 
-    <EditText
-        android:id="@+id/emailEditText"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emailTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:background="@drawable/edit_text_border"
-        android:ems="10"
-        android:hint="@string/enter_email"
-        android:importantForAutofill="no"
-        android:inputType="textEmailAddress"
+        android:gravity="center"
         android:minWidth="50dp"
-        android:minHeight="50dp"
-        android:padding="15dp"
-        android:textColor="#000000"
-        android:textColorHint="#000000"
-        android:textSize="18sp" />
+        android:minHeight="100dp"
+        android:padding="10dp"
+        android:textColorHint="@color/colorPrimaryDark"
+        app:errorEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/enter_email"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
+            android:minWidth="50dp"
+            android:minHeight="50dp"
+            android:padding="10dp"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/nextPageButton"
