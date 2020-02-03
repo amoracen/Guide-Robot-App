@@ -1,17 +1,11 @@
 package fau.amoracen.guiderobot;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +13,16 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 /**
  * Registration Fragment Email Section
@@ -28,7 +30,10 @@ import android.widget.Toast;
 public class RegistrationFragment extends Fragment {
 
 
-    private EditText emailEditText;
+    private TextInputEditText emailInputEditText;
+    private TextInputLayout emailInputLayout;
+    private TextView needHelpTextView;
+    private String emailInput;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -45,23 +50,64 @@ public class RegistrationFragment extends Fragment {
         buttonNextPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.action_registrationFragment_to_FirstLastNameFragment, null);
+                if (validateEmail()) {
+                    //Go to Next Page
+                    Bundle bundle = new Bundle();
+                    bundle.putString("email", emailInput);
+                    Navigation.findNavController(view).navigate(R.id.action_registrationFragment_to_FirstLastNameFragment, bundle);
+                }
+                /*TODO FAST TESTING*/
+                Bundle bundle = new Bundle();
+                bundle.putString("email", "test@gmail.com");
+                Navigation.findNavController(view).navigate(R.id.action_registrationFragment_to_FirstLastNameFragment, bundle);
             }
         });
 
-        emailEditText = view.findViewById(R.id.emailEditText);
-        emailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        emailInputLayout = view.findViewById(R.id.emailTextInputLayout);
+        emailInputEditText = view.findViewById(R.id.emailInputEditText);
+
+        emailInputEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus) {
+                    //EditText has focus
                     sendAccessibilityEvent("Keyboard is Visible");
                 } else {
                     hideKeyboard(view);
-                    Toast.makeText(getContext(), "Keyboard is not Visible", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Keyboard is not Visible", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
+        needHelpTextView = view.findViewById(R.id.needHelpTextView);
+        /*TODO*/
+        needHelpTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendAccessibilityEvent("Not Ready");
+            }
+        });
+
+    }
+
+    /**
+     * Check Email
+     * TODO ADD FIREBASE CHECK
+     * @return true if a valid email was entered, false otherwise
+     */
+    private boolean validateEmail() {
+        emailInput = emailInputLayout.getEditText().getText().toString().trim();
+        emailInputLayout.setErrorEnabled(true);
+        if (emailInput.isEmpty()) {
+            emailInputLayout.setError("Field for email can't be empty");
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
+            emailInputLayout.setError("Please enter a valid email address");
+            return false;
+        } else {
+            emailInputLayout.setErrorEnabled(false);
+            return true;
+        }
     }
 
     /**
@@ -69,7 +115,7 @@ public class RegistrationFragment extends Fragment {
      *
      * @param view current View
      */
-    public void hideKeyboard(View view) {
+    private void hideKeyboard(View view) {
         try {
             InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
