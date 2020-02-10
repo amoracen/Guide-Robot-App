@@ -12,12 +12,12 @@
     <string name="next">Next</string>
     <string name="next_page">Go to Next Page</string>
     <string name="enter_email">Enter Email</string>
-
     <string name="need_help">Need Help?</string>
-    <string name="first_and_last_name_form_lorem_ipsum">First and Last Name Form_lorem_ipsum</string>
+    <string name="first_and_last_name_form_description">Fill out First and Last Name fields.</string>
     <string name="first_and_last_name_form">First and Last Name Form</string>
     <string name="enter_first_name">Enter First Name</string>
     <string name="enter_last_name">Enter Last Name</string>
+
     <string name="height_form">Height Form</string>
     <string name="feet">Feet</string>
     <string name="enter_height_in_feet">Enter height in feet</string>
