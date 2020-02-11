@@ -39,7 +39,7 @@ public class RegistrationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_registration, container, false);
+        return inflater.inflate(R.layout.fragment_reg_email, container, false);
     }
 
     @Override
@@ -52,9 +52,9 @@ public class RegistrationFragment extends Fragment {
             public void onClick(View v) {
                 if (validateEmail()) {
                     //Go to Next Page
-                    Bundle bundle = new Bundle();
-                    bundle.putString("email", emailInput);
-                    Navigation.findNavController(view).navigate(R.id.action_registrationFragment_to_FirstLastNameFragment, bundle);
+                    //Bundle bundle = new Bundle();
+                    //bundle.putString("email", emailInput);
+                    //Navigation.findNavController(view).navigate(R.id.action_registrationFragment_to_FirstLastNameFragment, bundle);
                 }
                 /*TODO FAST TESTING*/
                 Bundle bundle = new Bundle();
@@ -69,10 +69,9 @@ public class RegistrationFragment extends Fragment {
         emailInputEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
+                if (!hasFocus) {
                     //EditText has focus
-                    sendAccessibilityEvent("Keyboard is Visible");
-                } else {
+                    //sendAccessibilityEvent("Keyboard is Visible");
                     hideKeyboard(view);
                     Toast.makeText(getContext(), "Keyboard is not Visible", Toast.LENGTH_SHORT).show();
                 }
@@ -87,12 +86,12 @@ public class RegistrationFragment extends Fragment {
                 sendAccessibilityEvent("Not Ready");
             }
         });
-
     }
 
     /**
      * Check Email
      * TODO ADD FIREBASE CHECK
+     *
      * @return true if a valid email was entered, false otherwise
      */
     private boolean validateEmail() {
