@@ -2,6 +2,7 @@ package fau.amoracen.guiderobot;
 
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -17,6 +18,9 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -29,12 +33,15 @@ public class MainActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
     private boolean ttsIsInitialized = false;
     private boolean screenReader;
+    private FirebaseAuth firebaseAuth;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Firebase
+        firebaseAuth = FirebaseAuth.getInstance();
 
         NavController navController = Navigation.findNavController(this, R.id.my_nav_host_fragment);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
@@ -111,7 +118,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //Intent toDashboard = new Intent(this, DashboardActivity.class);
-        // startActivity(toDashboard);
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if(currentUser != null){
+            Intent goToDashboard = new Intent(getApplicationContext(), DashboardActivity.class);
+            startActivity(goToDashboard);
+            finish();
+        }
+    }
+    /*Close TextToSpeech*/
+    @Override
+    protected void onDestroy(){
+        if(textToSpeech != null){
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+        super.onDestroy();
     }
 }
