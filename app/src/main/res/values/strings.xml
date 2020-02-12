@@ -42,4 +42,7 @@
     <string name="enter_command">Enter Command</string>
     <string name="send">Send</string>
     <string name="send_command_to_device">Send Command to Device</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="setting">Setting</string>
+    <string name="logout">Logout</string>
 </resources>
