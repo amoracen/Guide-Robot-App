@@ -54,8 +54,8 @@
         android:label="Password"
         tools:layout="@layout/fragment_password">
         <action
-            android:id="@+id/action_passwordFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_passwordFragment_to_dashboardActivity"
+            app:destination="@id/dashboardActivity" />
     </fragment>
     <activity
         android:id="@+id/dashboardActivity"
