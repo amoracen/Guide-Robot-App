@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="25dp"
-    tools:context=".LoginFragment">
-
+    android:background="@drawable/backgroundgradient_1">
     <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/loginFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="@drawable/backgroundgradient_1"
+        android:focusable="false"
+        android:importantForAccessibility="no"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingTop="25dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        tools:context=".LoginFragment">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -22,47 +26,104 @@
             android:layout_marginBottom="10dp"
             android:contentDescription="@null"
             android:minWidth="50dp"
-            android:minHeight="75dp">
+            android:minHeight="50dp">
 
             <TextView
-                android:id="@+id/registrationTextView"
+                android:id="@+id/loginTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="@string/login_form"
-                android:text="@string/login_form_lorem_ipsum"
+                android:background="@drawable/textview_border"
+                android:contentDescription="@string/login_form_description"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:minWidth="50dp"
+                android:minHeight="50dp"
+                android:padding="10dp"
+                android:text="@string/login_form"
                 android:textAlignment="center"
-                android:textColor="#100F0F"
-                android:textSize="30sp"
+                android:textColor="#000000"
+                android:textSize="24sp"
                 android:textStyle="bold" />
         </androidx.cardview.widget.CardView>
 
-        <EditText
-            android:id="@+id/emailEditText"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:hint="@string/enter_email"
-            android:ems="10"
-            android:inputType="textEmailAddress"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/edit_text_border"
+            android:gravity="center"
             android:minWidth="50dp"
-            android:minHeight="75dp"
-            android:textSize="18sp" />
+            android:minHeight="100dp"
+            android:padding="10dp"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/emailInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/enter_email"
+                android:importantForAutofill="no"
+                android:inputType="textEmailAddress"
+                android:minWidth="50dp"
+                android:minHeight="50dp"
+                android:padding="10dp"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passwordTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/edit_text_border"
+            android:gravity="center"
+            android:minWidth="50dp"
+            android:minHeight="100dp"
+            android:padding="10dp"
+            android:textColorHint="@color/colorPrimaryDark"
+            app:errorEnabled="true"
+            app:passwordToggleContentDescription="Show or Hide Password"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/enter_password"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:minWidth="50dp"
+                android:minHeight="50dp"
+                android:padding="10dp"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/nextPageButton"
+            android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="@string/next"
-            android:contentDescription="@string/next_page"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/button_background"
+            android:contentDescription="@string/login"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:minWidth="50dp"
-            android:minHeight="50dp"/>
+            android:minHeight="50dp"
+            android:text="@string/login"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/needHelpTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="25dp"
             android:contentDescription="@string/need_help"
             android:ems="10"
             android:minWidth="50dp"
@@ -71,7 +132,5 @@
             android:textAlignment="center"
             android:textColor="#050505"
             android:textSize="24sp" />
-
     </LinearLayout>
-
-</FrameLayout>
+</ScrollView>
