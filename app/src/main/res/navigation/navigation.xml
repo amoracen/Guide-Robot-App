@@ -21,7 +21,7 @@
         android:name="fau.amoracen.guiderobot.RegistrationFragment"
         android:label="Registration"
         android:focusable="true"
-        tools:layout="@layout/fragment_registration">
+        tools:layout="@layout/fragment_reg_email">
         <action
             android:id="@+id/action_registrationFragment_to_FirstLastNameFragment"
             app:destination="@id/firstLastNameFragment" />
@@ -32,7 +32,7 @@
         android:id="@+id/firstLastNameFragment"
         android:name="fau.amoracen.guiderobot.FirstLastNameFragment"
         android:label="First Last Name Form"
-        tools:layout="@layout/fragment_first_last_name">
+        tools:layout="@layout/fragment_reg_first_last_name">
         <action
             android:id="@+id/action_firstLastNameFragment_to_RegistrationHeightFragment"
             app:destination="@id/registrationHeightFragment" />
@@ -42,7 +42,7 @@
         android:id="@+id/registrationHeightFragment"
         android:name="fau.amoracen.guiderobot.RegistrationHeightFragment"
         android:label="Height"
-        tools:layout="@layout/fragment_registration_height">
+        tools:layout="@layout/fragment_reg_height">
         <action
             android:id="@+id/action_registrationHeightFragment_to_PasswordFragment"
             app:destination="@id/passwordFragment" />
@@ -54,8 +54,8 @@
         android:label="Password"
         tools:layout="@layout/fragment_password">
         <action
-            android:id="@+id/action_passwordFragment_to_DashboardActivity"
-            app:destination="@id/dashboardActivity" />
+            android:id="@+id/action_passwordFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <activity
         android:id="@+id/dashboardActivity"
@@ -78,8 +78,8 @@
         android:label="Login"
         tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_LoginFragment_to_PasswordFragment"
-            app:destination="@id/passwordFragment" />
+            android:id="@+id/action_LoginFragment_to_DashboardActivity"
+            app:destination="@id/dashboardActivity" />
     </fragment>
 
 
