@@ -21,8 +21,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.SignInMethodQueryResult;
+
+import java.util.List;
 
 /**
  * Registration Fragment Email Section
@@ -34,6 +41,8 @@ public class RegistrationFragment extends Fragment {
     private TextInputLayout emailInputLayout;
     private TextView needHelpTextView;
     private String emailInput;
+    //Firebase
+    private FirebaseAuth firebaseAuth;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -46,15 +55,34 @@ public class RegistrationFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        /*Initialize Firebase*/
+        firebaseAuth = FirebaseAuth.getInstance();
+
+
         Button buttonNextPage = view.findViewById(R.id.nextPageButton);
         buttonNextPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validateEmail()) {
-                    //Go to Next Page
-                    //Bundle bundle = new Bundle();
-                    //bundle.putString("email", emailInput);
-                    //Navigation.findNavController(view).navigate(R.id.action_registrationFragment_to_FirstLastNameFragment, bundle);
+                    firebaseAuth.fetchSignInMethodsForEmail(emailInput).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                            if (task.isSuccessful()) {
+                                SignInMethodQueryResult result = task.getResult();
+                                List<String> signInMethods = result.getSignInMethods();
+                                if (signInMethods.contains(EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD)) {
+                                    emailInputLayout.setErrorEnabled(true);
+                                    emailInputLayout.setError("The email has already been used");
+                                } else {
+                                    emailInputLayout.setErrorEnabled(false);
+                                    //Go to Next Page
+                                    //Bundle bundle = new Bundle();
+                                    //bundle.putString("email", emailInput);
+                                    //Navigation.findNavController(view).navigate(R.id.action_registrationFragment_to_FirstLastNameFragment, bundle);
+                                }
+                            }
+                        }
+                    });
                 }
                 /*TODO FAST TESTING*/
                 Bundle bundle = new Bundle();
@@ -90,7 +118,6 @@ public class RegistrationFragment extends Fragment {
 
     /**
      * Check Email
-     * TODO ADD FIREBASE CHECK
      *
      * @return true if a valid email was entered, false otherwise
      */
