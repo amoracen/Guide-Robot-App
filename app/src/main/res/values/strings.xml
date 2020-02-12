@@ -17,21 +17,19 @@
     <string name="first_and_last_name_form">First and Last Name Form</string>
     <string name="enter_first_name">Enter First Name</string>
     <string name="enter_last_name">Enter Last Name</string>
-
-    <string name="height_form">Height Form</string>
+    <string name="height_form">Fill out your height</string>
+    <string name="height_form_description">Fill out your Height </string>
     <string name="feet">Feet</string>
     <string name="enter_height_in_feet">Enter height in feet</string>
     <string name="enter_height_in_inches">Enter height in inches</string>
     <string name="inches">Inches</string>
-    <string name="feet_row">Feet Row</string>
-    <string name="inches_row">Inches Row</string>
     <string name="got_to_help_screen">Got to Help Screen.</string>
-    <string name="password_form">Password Form</string>
+    <string name="password_form">Fill out your Password</string>
     <string name="enter_password">Enter Password</string>
     <string name="register">Register</string>
     <string name="create_new_account">Create new Account</string>
-    <string name="login_form">Login Form</string>
-    <string name="login_form_lorem_ipsum">Login Form_lorem_ipsum</string>
+    <string name="login_form">Welcome back.Please login.</string>
+    <string name="login_form_description">Welcome back.Please login.Fill out email and password fields.</string>
     <string name="submit">Submit</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="enable_bluetooth">Enable Bluetooth</string>
