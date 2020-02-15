@@ -32,8 +32,9 @@
     <string name="login_form_description">Welcome back.Please login.Fill out email and password fields.</string>
     <string name="submit">Submit</string>
     <string name="bluetooth">Bluetooth</string>
+    <string name="bluetooth_description">Go to Bluetooth Screen</string>
     <string name="enable_bluetooth">Enable Bluetooth</string>
-    <string name="select_device_to_pair">Devices</string>
+    <string name="select_device_to_pair">Select device to Pair</string>
     <string name="start_scanning">Start Scanning</string>
     <string name="pair_to_device">Pair to Device</string>
     <string name="scanning_in_progress">Scanning in Progress …</string>
@@ -41,8 +42,14 @@
     <string name="bluetooth_is_disable">Bluetooth is Disable</string>
     <string name="enter_command">Enter Command</string>
     <string name="send">Send</string>
+    <string name="command_sent">Command Sent</string>
     <string name="send_command_to_device">Send Command to Device</string>
     <string name="dashboard">Dashboard</string>
+    <string name="dashboard_description">Got to Dashboard Screen</string>
     <string name="setting">Setting</string>
+    <string name="setting_description">Go to Setting Screen</string>
     <string name="logout">Logout</string>
+    <string name="start_connection">Connect to Robot</string>
+    <string name="connection_failed">Connection Failed</string>
+    <string name="connection_success">Connected to Robot</string>
 </resources>
