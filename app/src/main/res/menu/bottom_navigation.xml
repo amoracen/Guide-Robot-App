@@ -3,16 +3,20 @@
     <item
         android:id="@+id/nav_dashboard"
         android:icon="@drawable/ic_home_black"
-        android:title="@string/dashboard" />
+        android:title="@string/dashboard"
+        android:contentDescription="@string/dashboard_description"
+        />
 
     <item
         android:id="@+id/nav_bluetooth"
         android:icon="@drawable/ic_bluetooth_connected"
-        android:title="@string/bluetooth" />
+        android:title="@string/pair_to_device"
+        android:contentDescription="@string/select_device_to_pair"/>
 
     <item
         android:id="@+id/nav_setting"
         android:icon="@drawable/ic_settings_black"
-        android:title="@string/setting" />
+        android:title="@string/setting"
+        android:contentDescription="@string/setting_description"/>
 
 </menu>
