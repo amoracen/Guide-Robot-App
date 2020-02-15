@@ -21,10 +21,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Set;
-import java.util.UUID;
 
+/**
+ * Dashboard Fragment
+ */
 public class DashboardFragment extends Fragment {
 
     private BluetoothAdapter bluetoothAdapter;
@@ -32,13 +33,17 @@ public class DashboardFragment extends Fragment {
     private String deviceAddress;
     private TextView bluetoothTextView;
     private ImageView bluetoothImageView;
+
     private EditText commandEditText;
     private TextView feedbackTextView;
+
+    private static final int REQUEST_ENABLE_BLUETOOTH = 11;
     private Button sendCommandButton;
+    private Button startConnection;
+    private BluetoothConnection myConnection;
     private BluetoothSocket mmSocket;
     private BluetoothDevice mmDevice;
-    private ConnectThread connectThread;
-    public static final int REQUEST_ENABLE_BLUETOOTH = 11;
+    //private ConnectThread connectThread;
     private boolean bluetoothStatus = false;
 
     @Nullable
@@ -51,11 +56,23 @@ public class DashboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         bluetoothImageView = view.findViewById(R.id.bluetoothLogo);
         bluetoothTextView = view.findViewById(R.id.bluetoothTextView);
         commandEditText = view.findViewById(R.id.commandEditText);
         sendCommandButton = view.findViewById(R.id.sendButton);
+        startConnection = view.findViewById(R.id.startConnectionButton);
         feedbackTextView = view.findViewById(R.id.feedback_text_view);
+        //Get bluetooth adapter
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        checkBluetoothState();
+
+        startConnection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startConnection();
+            }
+        });
 
         sendCommandButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,31 +84,121 @@ public class DashboardFragment extends Fragment {
                 } else {
                     final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(deviceAddress);
                     try {
-                        if (connectThread == null) {
-                            connectThread = new ConnectThread(device);
-                            connectThread.start();
+                        if (myConnection == null) {
+                            myConnection = new BluetoothConnection(device);
+                            myConnection.start();
                         }
-                        connectThread.send(msg);
+                        myConnection.send(msg);
                         feedbackTextView.setVisibility(View.VISIBLE);
-                        feedbackTextView.setText("Command Sent");
+                        feedbackTextView.setText(R.string.command_sent);
                         feedbackTextView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-
                     } catch (IOException e) {
                         e.printStackTrace();
                         Toast.makeText(getContext(), "Send a Command Failed", Toast.LENGTH_LONG).show();
-                        connectThread = null;
+                        myConnection = null;
                         feedbackTextView.setVisibility(View.INVISIBLE);
                     }
                 }
             }
         });
-
-        //Get bluetooth adapter
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        checkBluetoothState();
     }//EOF onViewCreated
 
-    private class ConnectThread extends Thread {
+    /**
+     * Checking if Bluetooth is Enabled
+     */
+    private void checkBluetoothState() {
+        if (bluetoothAdapter == null) {
+            Toast.makeText(getContext(), "Bluetooth is not supported on your device!", Toast.LENGTH_SHORT).show();
+        } else {
+            if (!bluetoothAdapter.isEnabled()) {
+                //Toast.makeText(getActivity(), "You Need to Enable Bluetooth", Toast.LENGTH_SHORT).show();
+                Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableIntent, REQUEST_ENABLE_BLUETOOTH);
+            } else {
+                bluetoothImageView.setImageResource(R.drawable.ic_bluetooth_enabled);
+                bluetoothImageView.setContentDescription("Bluetooth is Enable");
+                checkPairedDevices();
+            }
+        }
+    }
+
+    /**
+     * Checking user response
+     *
+     * @param requestCode integer
+     * @param resultCode  integer
+     * @param data        Intent
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            Toast.makeText(getContext(), "Bluetooth is On", Toast.LENGTH_LONG).show();
+            bluetoothImageView.setImageResource(R.drawable.ic_bluetooth_enabled);
+            bluetoothImageView.setContentDescription("Bluetooth is Enable");
+            checkPairedDevices();
+        }
+        if (resultCode == Activity.RESULT_CANCELED) {
+            Toast.makeText(getContext(), "Bluetooth is Off", Toast.LENGTH_LONG).show();
+            sendCommandButton.setEnabled(false);
+        }
+    }
+
+    /**
+     * Checking if the devices were paired
+     */
+    public void checkPairedDevices() {
+        //Check paired devices
+        Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
+        boolean deviceFound = false;
+        if (pairedDevices.size() > 0) {
+            // There are paired devices. Get the name and address of each paired device.
+            for (BluetoothDevice device : pairedDevices) {
+                Log.i("Devices Paired", device.getName());
+                if ("guide-robot".equals(device.getName())) {
+                    deviceName = device.getName();
+                    deviceAddress = device.getAddress();
+                    deviceFound = true;
+                }
+            }
+        }
+
+        if (deviceFound) {
+            bluetoothTextView.setText(deviceName.toUpperCase());
+        } else {
+            Toast.makeText(getContext(), "There are not paired devices", Toast.LENGTH_SHORT).show();
+            sendCommandButton.setEnabled(false);
+        }
+    }
+
+    /**
+     * Start a new Connection with the  server.
+     */
+    public void startConnection() {
+        try {
+            /*Start a new Connection*/
+            final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(deviceAddress);
+            myConnection = new BluetoothConnection(device);
+            myConnection.start();
+            bluetoothImageView.setImageResource(R.drawable.ic_bluetooth_connected);
+            bluetoothImageView.setContentDescription("Connected to " + deviceName);
+            feedbackTextView.setVisibility(View.VISIBLE);
+            feedbackTextView.setText(R.string.connection_success);
+            feedbackTextView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.i("Exception", "Failed to Connect");
+            feedbackTextView.setVisibility(View.VISIBLE);
+            feedbackTextView.setText(R.string.connection_failed);
+            feedbackTextView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        }
+    }
+
+
+    /**
+     * ConnectThread is responsible for sending and receiving information to the Jetson Nano
+     */
+    /*private class ConnectThread extends Thread {
 
         private ConnectThread(BluetoothDevice device) throws IOException {
             // Use a temporary object that is later assigned to mmSocket
@@ -116,89 +223,9 @@ public class DashboardFragment extends Fragment {
             }
         }
 
-        public void send(String msg) throws IOException {
-            OutputStream mmOutputStream = mmSocket.getOutputStream();
-            mmOutputStream.write(msg.getBytes());
-            //receive();
-        }
 
-        /*public void receive() throws IOException {
-            InputStream mmInputStream = mmSocket.getInputStream();
-            byte[] buffer = new byte[256];
-            int bytes;
 
-            try {
-                bytes = mmInputStream.read(buffer);
-                String readMessage = new String(buffer, 0, bytes);
-                Log.d(TAG, "Received: " + readMessage);
-                mmSocket.close();
-            } catch (IOException e) {
-                Log.e(TAG, "Problems occurred!");
-                return;
-            }
-        }*/
-    }
 
-    private void checkBluetoothState() {
-        if (bluetoothAdapter == null) {
-            Toast.makeText(getActivity(), "Bluetooth is not supported on your device!", Toast.LENGTH_SHORT).show();
-        } else {
-            if (!bluetoothAdapter.isEnabled()) {
-                Toast.makeText(getActivity(), "You Need to Enable Bluetooth", Toast.LENGTH_SHORT).show();
-                Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableIntent, REQUEST_ENABLE_BLUETOOTH);
-            } else {
-                checkPairedDevices();
-            }
-        }
-    }
+    }*/
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            Toast.makeText(getContext(), "Turned on", Toast.LENGTH_LONG).show();
-            checkPairedDevices();
-        }
-        if (resultCode == Activity.RESULT_CANCELED) {
-            Toast.makeText(getContext(), "Turned off", Toast.LENGTH_LONG).show();
-            sendCommandButton.setEnabled(false);
-        }
-    }
-
-    public void checkPairedDevices() {
-       /* //Get bluetooth adapter
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        //Check Bluetooth State
-        checkBluetoothState();*/
-        //Check paired devices
-        Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
-        if (pairedDevices.size() > 0) {
-            boolean deviceFound = false;
-            //Toast.makeText(this, "There are paired devices!", Toast.LENGTH_LONG).show();
-            // There are paired devices. Get the name and address of each paired device.
-            for (BluetoothDevice device : pairedDevices) {
-                Log.i("Devices Paired", device.getName());
-                if ("jetson-nano".equals(device.getName())) {
-                    deviceName = device.getName();
-                    deviceAddress = device.getAddress();
-                    deviceFound = true;
-                    //String deviceName = device.getName();
-                    //String deviceHardwareAddress = device.getAddress(); // MAC address
-                }
-            }
-            if (!deviceFound) {
-                Intent toPairDevice = new Intent(getActivity(), PairDeviceActivity.class);
-                startActivity(toPairDevice);
-            } else {
-                bluetoothTextView.setText(deviceName);
-                bluetoothImageView.setImageResource(R.drawable.ic_bluetooth_connected);
-                bluetoothImageView.setContentDescription("Paired to " + deviceName);
-            }
-        } else {
-            //Toast.makeText(this, "There are not paired devices", Toast.LENGTH_SHORT).show();
-            Intent toPairDevice = new Intent(getActivity(), PairDeviceActivity.class);
-            startActivity(toPairDevice);
-        }
-    }
-}
+}//EOF Class
