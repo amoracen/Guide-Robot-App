@@ -64,14 +64,6 @@
         tools:layout="@layout/activity_dashboard">
 
     </activity>
-
-    <activity
-        android:id="@+id/pairDeviceActivity"
-        android:name="fau.amoracen.guiderobot.PairDeviceActivity"
-        android:label="Pair Devices"
-        tools:layout="@layout/activity_pair_device">
-
-    </activity>
     <fragment
         android:id="@+id/loginFragment"
         android:name="fau.amoracen.guiderobot.LoginFragment"
