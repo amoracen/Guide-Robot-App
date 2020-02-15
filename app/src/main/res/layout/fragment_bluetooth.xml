@@ -1,13 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@android:color/holo_purple">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bluetoothFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroundgradient_1"
+    android:focusable="false"
+    android:importantForAccessibility="no"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingTop="25dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp"
+    tools:context=".BluetoothFragment">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@null"
+        android:minWidth="50dp"
+        android:minHeight="50dp">
+
+        <TextView
+            android:id="@+id/pairToDeviceTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/textview_border"
+            android:contentDescription="@string/select_device_to_pair"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:minWidth="50dp"
+            android:minHeight="50dp"
+            android:padding="10dp"
+            android:text="@string/pair_to_device"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
+    <ListView
+        android:id="@+id/devicesList"
+        android:layout_width="match_parent"
+        android:background="@drawable/edit_text_border"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/select_device_to_pair" />
+
+    <Button
+        android:id="@+id/scanningBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/button_background"
+        android:contentDescription="@string/start_scanning"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:minWidth="50dp"
+        android:minHeight="50dp"
+        android:text="@string/start_scanning"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/feedback_text_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bluetooth Fragment"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+        android:layout_marginTop="20dp"
+        android:accessibilityLiveRegion="polite"
+        android:background="@null"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        tools:visibility="invisible" />
 
-</RelativeLayout>
+</LinearLayout>
