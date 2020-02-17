@@ -43,6 +43,7 @@
     <string name="enter_command">Enter Command</string>
     <string name="send">Send</string>
     <string name="command_sent">Command Sent</string>
+    <string name="command_failed">Command Failed</string>
     <string name="send_command_to_device">Send Command to Device</string>
     <string name="dashboard">Dashboard</string>
     <string name="dashboard_description">Got to Dashboard Screen</string>
@@ -50,6 +51,9 @@
     <string name="setting_description">Go to Setting Screen</string>
     <string name="logout">Logout</string>
     <string name="start_connection">Connect to Robot</string>
-    <string name="connection_failed">Connection Failed</string>
     <string name="connection_success">Connected to Robot</string>
+    <string name="connection_failed">Connection Failed</string>
+    <string name="go_forward">Go Forward</string>
+    <string name="go_in_circles">Go in Circles</string>
+    <string name="draw_square">Draw a Square</string>
 </resources>

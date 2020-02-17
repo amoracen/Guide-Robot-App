@@ -36,9 +36,7 @@ import java.util.regex.Pattern;
  */
 public class PasswordFragment extends Fragment {
 
-    private TextInputEditText passwordEditText;
     private TextInputLayout passwordLayout;
-    private TextView needHelpTextView;
     private String passwordInput;
     private Bundle bundle;
     private FirebaseAuth fireBaseAuth;
@@ -68,7 +66,7 @@ public class PasswordFragment extends Fragment {
 
         /*Password*/
         passwordLayout = view.findViewById(R.id.passwordTextInputLayout);
-        passwordEditText = view.findViewById(R.id.passwordInputEditText);
+        TextInputEditText passwordEditText = view.findViewById(R.id.passwordInputEditText);
 
         Button buttonSubmit = view.findViewById(R.id.registerButton);
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
@@ -87,8 +85,8 @@ public class PasswordFragment extends Fragment {
                                     //Save to database
                                     myRef.child(Objects.requireNonNull(fireBaseAuth.getUid())).setValue(userInfo);
                                     Navigation.findNavController(view).navigate(R.id.action_passwordFragment_to_dashboardActivity, null);
-                                }else{
-                                    Toast.makeText(getContext(),"Sign Up Unsuccessful.Please Try Again",Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getContext(), "Sign Up Unsuccessful.Please Try Again", Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
@@ -107,7 +105,7 @@ public class PasswordFragment extends Fragment {
                 }
             }
         });
-        needHelpTextView = view.findViewById(R.id.needHelpTextView);
+        TextView needHelpTextView = view.findViewById(R.id.needHelpTextView);
         /*TODO*/
         needHelpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,5 +200,4 @@ public class PasswordFragment extends Fragment {
         super.onResume();
         sendAccessibilityEvent("Password Form 4-4");
     }
-
 }

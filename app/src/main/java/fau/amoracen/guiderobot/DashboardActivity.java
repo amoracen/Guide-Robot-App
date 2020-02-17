@@ -46,7 +46,6 @@ public class DashboardActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
         //Get bluetooth adapter
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        checkPairedDevices();
     }//EOF onCreate
 
     /**
@@ -103,11 +102,14 @@ public class DashboardActivity extends AppCompatActivity {
             Intent goToMainActivity = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(goToMainActivity);
             finish();
+        } else {
+            checkPairedDevices();
         }
     }
 
     /**
      * Checking if the devices were paired
+     * TODO implement doInBackground
      */
     public void checkPairedDevices() {
         Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
@@ -132,12 +134,11 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * After checkCoarseLocationPermission's result is returned
      *
-     * @param requestCode integer
-     * @param permissions integer
+     * @param requestCode  integer
+     * @param permissions  integer
      * @param grantResults int
      */
     @Override

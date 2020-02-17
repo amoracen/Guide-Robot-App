@@ -1,111 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/settingFragment"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgroundgradient_1"
-    android:focusable="false"
-    android:importantForAccessibility="no"
-    android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingTop="25dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="16dp"
-    tools:context=".DashboardFragment">
+    android:background="@drawable/backgroundgradient_1">
 
-    <androidx.appcompat.widget.ActionMenuView
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/settingFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffff"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:contentDescription="@null"
-        android:minWidth="50dp"
-        android:minHeight="50dp">
+        android:focusable="false"
+        android:importantForAccessibility="no"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingTop="25dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        tools:context=".DashboardFragment">
 
-        <TextView
-            android:id="@+id/bluetoothTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/textview_border"
-            android:contentDescription="@string/setting"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
+        <androidx.appcompat.widget.ActionMenuView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#ffff"
+            android:contentDescription="@null"
+            android:minWidth="50dp"
+            android:minHeight="50dp">
+
+            <TextView
+                android:id="@+id/bluetoothTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/textview_border"
+                android:contentDescription="@string/setting"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:minWidth="50dp"
+                android:minHeight="50dp"
+                android:padding="10dp"
+                android:text="@string/bluetooth"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/bluetoothLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/bluetooth_is_disable"
+                android:focusable="true"
+                android:minWidth="60dp"
+                android:minHeight="60dp"
+                android:src="@drawable/ic_bluetooth_disabled" />
+        </androidx.appcompat.widget.ActionMenuView>
+
+        <androidx.appcompat.widget.ActionMenuView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@null"
+            android:minWidth="50dp"
+            android:minHeight="50dp">
+
+            <Button
+                android:id="@+id/startConnectionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background_small"
+                android:contentDescription="@string/send_command_to_device"
+                android:focusable="true"
+                android:text="@string/start_connection"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/goForwardButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background_small"
+                android:contentDescription="@string/go_forward"
+                android:focusable="true"
+                android:text="@string/go_forward"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+
+        </androidx.appcompat.widget.ActionMenuView>
+
+
+        <androidx.appcompat.widget.ActionMenuView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@null"
+            android:minWidth="50dp"
+            android:minHeight="50dp">
+
+            <Button
+                android:id="@+id/drawSquareButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background_small"
+                android:contentDescription="@string/draw_square"
+                android:focusable="true"
+                android:padding="7dp"
+                android:text="@string/draw_square"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/goInCirclesButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background_small"
+                android:contentDescription="@string/go_in_circles"
+                android:focusable="true"
+                android:padding="5dp"
+                android:text="@string/go_in_circles"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </androidx.appcompat.widget.ActionMenuView>
+
+
+        <EditText
+            android:id="@+id/commandEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/edit_text_border"
+            android:ems="10"
+            android:hint="@string/enter_command"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
             android:minWidth="50dp"
             android:minHeight="50dp"
             android:padding="10dp"
-            android:text="@string/bluetooth"
-            android:textAlignment="center"
-            android:textColor="#000000"
+            android:text="@android:string/ok" />
+
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:padding="15dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/button_background_small"
+            android:contentDescription="@string/send_command_to_device"
+            android:focusable="true"
+            android:minWidth="50dp"
+            android:minHeight="50dp"
+            android:text="@string/send"
             android:textSize="30sp"
             android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/bluetoothLogo"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/feedback_text_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/bluetooth_is_disable"
-            android:focusable="true"
-            android:minWidth="60dp"
-            android:minHeight="60dp"
-            android:src="@drawable/ic_bluetooth_disabled" />
-    </androidx.appcompat.widget.ActionMenuView>
-
-    <Button
-        android:id="@+id/startConnectionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/button_background_small"
-        android:text="@string/start_connection"
-        android:contentDescription="@string/send_command_to_device"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:minWidth="50dp"
-        android:minHeight="50dp"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
-
-    <EditText
-        android:id="@+id/commandEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/edit_text_border"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:minWidth="50dp"
-        android:minHeight="50dp"
-        android:padding="10dp"
-        android:hint="@string/enter_command"
-        android:inputType="textPersonName"
-        android:text="@android:string/ok" />
-
-    <Button
-        android:id="@+id/sendButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/button_background"
-        android:text="@string/send"
-        android:contentDescription="@string/send_command_to_device"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:minWidth="50dp"
-        android:minHeight="50dp"
-        android:textSize="30sp"
-        android:textStyle="bold"/>
-    <TextView
-        android:id="@+id/feedback_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:accessibilityLiveRegion="polite"
-        android:background="@null"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:padding="10dp"
-        tools:visibility="invisible" />
-</LinearLayout>
+            android:layout_marginTop="20dp"
+            android:accessibilityLiveRegion="polite"
+            android:background="@null"
+            android:padding="10dp"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            tools:visibility="invisible" />
+    </LinearLayout>
+</ScrollView>

@@ -3,8 +3,8 @@ package fau.amoracen.guiderobot;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,18 +33,19 @@ public class DashboardFragment extends Fragment {
     private String deviceAddress;
     private TextView bluetoothTextView;
     private ImageView bluetoothImageView;
-
     private EditText commandEditText;
     private TextView feedbackTextView;
-
     private static final int REQUEST_ENABLE_BLUETOOTH = 11;
     private Button sendCommandButton;
-    private Button startConnection;
     private BluetoothConnection myConnection;
-    private BluetoothSocket mmSocket;
-    private BluetoothDevice mmDevice;
-    //private ConnectThread connectThread;
-    private boolean bluetoothStatus = false;
+    private boolean destroyed;
+    private boolean connected = false;
+    private String messageToSend;
+    private static final String SUCCESS = "CONNECTED";
+    private static final String SUCCESS_MSG = "MESSAGE_SENT";
+    private static final String FAILED = "NOT CONNECTED";
+    private static final String FAILED_MSG = "MESSAGE_FAILED";
+
 
     @Nullable
     @Override
@@ -61,46 +62,63 @@ public class DashboardFragment extends Fragment {
         bluetoothTextView = view.findViewById(R.id.bluetoothTextView);
         commandEditText = view.findViewById(R.id.commandEditText);
         sendCommandButton = view.findViewById(R.id.sendButton);
-        startConnection = view.findViewById(R.id.startConnectionButton);
         feedbackTextView = view.findViewById(R.id.feedback_text_view);
+        Button startConnection = view.findViewById(R.id.startConnectionButton);
+        Button goForwardBTN = view.findViewById(R.id.goForwardButton);
+        Button goInCirclesBTN = view.findViewById(R.id.goInCirclesButton);
+        Button drawSquareBTN = view.findViewById(R.id.drawSquareButton);
+        destroyed = false;
         //Get bluetooth adapter
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        /*TODO implement doInBackground*/
         checkBluetoothState();
 
         startConnection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startConnection();
+                startConnection startConnection = new startConnection();
+                startConnection.execute();
             }
         });
 
         sendCommandButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String msg = commandEditText.getText().toString();
-                if (msg.isEmpty()) {
+                messageToSend = commandEditText.getText().toString();
+                if (messageToSend.isEmpty()) {
                     Toast.makeText(getContext(), "Please enter a Command", Toast.LENGTH_LONG).show();
                     commandEditText.requestFocus();
                 } else {
-                    final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(deviceAddress);
-                    try {
-                        if (myConnection == null) {
-                            myConnection = new BluetoothConnection(device);
-                            myConnection.start();
-                        }
-                        myConnection.send(msg);
-                        feedbackTextView.setVisibility(View.VISIBLE);
-                        feedbackTextView.setText(R.string.command_sent);
-                        feedbackTextView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Toast.makeText(getContext(), "Send a Command Failed", Toast.LENGTH_LONG).show();
-                        myConnection = null;
-                        feedbackTextView.setVisibility(View.INVISIBLE);
-                    }
+                    sendMessage sendMessage = new sendMessage();
+                    sendMessage.execute();
                 }
             }
         });
+        goForwardBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                messageToSend = "GO_FORWARD";
+                sendMessage sendMessage = new sendMessage();
+                sendMessage.execute();
+            }
+        });
+        goInCirclesBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                messageToSend = "GO_IN_CIRCLES";
+                sendMessage sendMessage = new sendMessage();
+                sendMessage.execute();
+            }
+        });
+        drawSquareBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                messageToSend = "DRAW_SQUARE";
+                sendMessage sendMessage = new sendMessage();
+                sendMessage.execute();
+            }
+        });
+
     }//EOF onViewCreated
 
     /**
@@ -165,6 +183,9 @@ public class DashboardFragment extends Fragment {
 
         if (deviceFound) {
             bluetoothTextView.setText(deviceName.toUpperCase());
+            //Check Connection on the background
+            startConnection startConnection = new startConnection();
+            startConnection.execute();
         } else {
             Toast.makeText(getContext(), "There are not paired devices", Toast.LENGTH_SHORT).show();
             sendCommandButton.setEnabled(false);
@@ -172,60 +193,118 @@ public class DashboardFragment extends Fragment {
     }
 
     /**
-     * Start a new Connection with the  server.
+     * Start Connection to server
      */
-    public void startConnection() {
-        try {
-            /*Start a new Connection*/
-            final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(deviceAddress);
-            myConnection = new BluetoothConnection(device);
-            myConnection.start();
-            bluetoothImageView.setImageResource(R.drawable.ic_bluetooth_connected);
-            bluetoothImageView.setContentDescription("Connected to " + deviceName);
-            feedbackTextView.setVisibility(View.VISIBLE);
-            feedbackTextView.setText(R.string.connection_success);
-            feedbackTextView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.i("Exception", "Failed to Connect");
-            feedbackTextView.setVisibility(View.VISIBLE);
-            feedbackTextView.setText(R.string.connection_failed);
-            feedbackTextView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+    public class startConnection extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                /*Start a new Connection*/
+                final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(deviceAddress);
+                if (myConnection == null) {
+                    myConnection = new BluetoothConnection(device);
+                    myConnection.start();
+                }
+                connected = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.i("Exception", "Failed to Connect");
+                connected = false;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (connected) {
+                updateUIMessage(SUCCESS);
+            } else {
+                updateUIMessage(FAILED);
+            }
+
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        destroyed = true;
+        if (myConnection != null) {
+            myConnection.closeSocket();
+        }
+    }
 
     /**
-     * ConnectThread is responsible for sending and receiving information to the Jetson Nano
+     * Start Connection to server
      */
-    /*private class ConnectThread extends Thread {
-
-        private ConnectThread(BluetoothDevice device) throws IOException {
-            // Use a temporary object that is later assigned to mmSocket
-            // because mmSocket is final.
-            BluetoothSocket tmp = null;
-            mmDevice = device;
+    public class sendMessage extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
             try {
-                // Get a BluetoothSocket to connect with the given BluetoothDevice.
-                // MY_UUID is the app's UUID string, also used in the server code.
-                UUID uuid = UUID.fromString("94f39d29-7d6d-437d-973b-fba39e49d4ee");
-                tmp = device.createRfcommSocketToServiceRecord(uuid);
+                /*Start a new Connection*/
+                final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(deviceAddress);
+                if (myConnection == null) {
+                    myConnection = new BluetoothConnection(device);
+                    myConnection.start();
+                }
+                myConnection.send(messageToSend);
+                connected = true;
             } catch (IOException e) {
-                Log.e("Fail*************", "Socket's create() method failed", e);
+                e.printStackTrace();
+                Log.i("Exception", "Failed to Connect");
+                connected = false;
             }
-            mmSocket = tmp;
-            bluetoothAdapter.cancelDiscovery();
-            try {
-                mmSocket.connect();
-            } catch (IOException connectException) {
-                Log.v("Fail*************", "Connection exception!");
-                mmSocket.close();
-            }
+            return null;
         }
 
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (connected) {
+                updateUIMessage(SUCCESS_MSG);
+            } else {
+                updateUIMessage(FAILED_MSG);
+            }
 
+        }
+    }
 
-
-    }*/
-
+    /**
+     * Update UI after AsyncTask is executed
+     *
+     * @param connection a string representing the connection
+     */
+    public void updateUIMessage(String connection) {
+        //Check if user change fragments
+        if (destroyed) {
+            return;
+        }
+        feedbackTextView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        switch (connection) {
+            case SUCCESS:
+                //Update bluetooth logo
+                bluetoothImageView.setImageResource(R.drawable.ic_bluetooth_connected);
+                bluetoothImageView.setContentDescription("Connected to " + deviceName);
+                //Update message
+                feedbackTextView.setVisibility(View.VISIBLE);
+                feedbackTextView.setText(R.string.connection_success);
+                break;
+            case FAILED:
+                myConnection = null;
+                //Update message
+                feedbackTextView.setVisibility(View.VISIBLE);
+                feedbackTextView.setText(R.string.connection_failed);
+                break;
+            case SUCCESS_MSG:
+                feedbackTextView.setVisibility(View.VISIBLE);
+                feedbackTextView.setText(R.string.command_sent);
+                break;
+            case FAILED_MSG:
+                myConnection = null;
+                feedbackTextView.setVisibility(View.VISIBLE);
+                feedbackTextView.setText(R.string.command_failed);
+                break;
+        }
+    }
 }//EOF Class

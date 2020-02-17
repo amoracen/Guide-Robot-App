@@ -37,9 +37,7 @@ import java.util.List;
 public class RegistrationFragment extends Fragment {
 
 
-    private TextInputEditText emailInputEditText;
     private TextInputLayout emailInputLayout;
-    private TextView needHelpTextView;
     private String emailInput;
     //Firebase
     private FirebaseAuth firebaseAuth;
@@ -76,37 +74,35 @@ public class RegistrationFragment extends Fragment {
                                 } else {
                                     emailInputLayout.setErrorEnabled(false);
                                     //Go to Next Page
-                                    //Bundle bundle = new Bundle();
-                                    //bundle.putString("email", emailInput);
-                                    //Navigation.findNavController(view).navigate(R.id.action_registrationFragment_to_FirstLastNameFragment, bundle);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("email", emailInput);
+                                    Navigation.findNavController(view).navigate(R.id.action_registrationFragment_to_FirstLastNameFragment, bundle);
                                 }
                             }
                         }
                     });
                 }
                 /*TODO FAST TESTING*/
-                Bundle bundle = new Bundle();
-                bundle.putString("email", "test@gmail.com");
-                Navigation.findNavController(view).navigate(R.id.action_registrationFragment_to_FirstLastNameFragment, bundle);
+                //Bundle bundle = new Bundle();
+                //bundle.putString("email", "test@gmail.com");
+                //Navigation.findNavController(view).navigate(R.id.action_registrationFragment_to_FirstLastNameFragment, bundle);
             }
         });
 
         emailInputLayout = view.findViewById(R.id.emailTextInputLayout);
-        emailInputEditText = view.findViewById(R.id.emailInputEditText);
+        TextInputEditText emailInputEditText = view.findViewById(R.id.emailInputEditText);
 
         emailInputEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus) {
-                    //EditText has focus
-                    //sendAccessibilityEvent("Keyboard is Visible");
                     hideKeyboard(view);
                     Toast.makeText(getContext(), "Keyboard is not Visible", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        needHelpTextView = view.findViewById(R.id.needHelpTextView);
+        TextView needHelpTextView = view.findViewById(R.id.needHelpTextView);
         /*TODO*/
         needHelpTextView.setOnClickListener(new View.OnClickListener() {
             @Override

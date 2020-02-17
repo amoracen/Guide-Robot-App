@@ -28,14 +28,11 @@ import com.google.android.material.textfield.TextInputLayout;
 public class FirstLastNameFragment extends Fragment {
 
 
-    private TextInputEditText firstNameEditText;
     private TextInputLayout firstNameLayout;
-    private TextInputEditText lastNameEditText;
     private TextInputLayout lastNameLayout;
-    private TextView needHelpTextView;
+    private Bundle bundle;
     private String firstInput;
     private String lastInput;
-    private Bundle bundle;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -53,10 +50,10 @@ public class FirstLastNameFragment extends Fragment {
 
         /*First Name Information*/
         firstNameLayout = view.findViewById(R.id.firstNameTextInputLayout);
-        firstNameEditText = view.findViewById(R.id.firstNameEditText);
+        TextInputEditText firstNameEditText = view.findViewById(R.id.firstNameEditText);
         /*Last Name Information*/
         lastNameLayout = view.findViewById(R.id.lastNameTextInputLayout);
-        lastNameEditText = view.findViewById(R.id.lastNameEditText);
+        TextInputEditText lastNameEditText = view.findViewById(R.id.lastNameEditText);
 
 
         Button buttonNextPage = view.findViewById(R.id.nextPageButton);
@@ -65,15 +62,14 @@ public class FirstLastNameFragment extends Fragment {
             public void onClick(View v) {
                 if (validateName()) {
                     //Go to Next Page
-                    System.out.println("ok");
-                    //bundle.putString("firstName", firstInput);
-                    //bundle.putString("lastName", lastInput);
-                    //Navigation.findNavController(view).navigate(R.id.action_firstLastNameFragment_to_RegistrationHeightFragment, bundle);
+                    bundle.putString("firstName", firstInput);
+                    bundle.putString("lastName", lastInput);
+                    Navigation.findNavController(view).navigate(R.id.action_firstLastNameFragment_to_RegistrationHeightFragment, bundle);
                 }
                 /*TODO FAST TESTING*/
-                bundle.putString("firstName", "Alex");
-                bundle.putString("lastName", "Last");
-                Navigation.findNavController(view).navigate(R.id.action_firstLastNameFragment_to_RegistrationHeightFragment, bundle);
+                //bundle.putString("firstName", "Alex");
+                //bundle.putString("lastName", "Last");
+                //Navigation.findNavController(view).navigate(R.id.action_firstLastNameFragment_to_RegistrationHeightFragment, bundle);
             }
         });
 
@@ -88,7 +84,7 @@ public class FirstLastNameFragment extends Fragment {
             }
         });
 
-        needHelpTextView = view.findViewById(R.id.needHelpTextView);
+        TextView needHelpTextView = view.findViewById(R.id.needHelpTextView);
         /*TODO*/
         needHelpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +96,7 @@ public class FirstLastNameFragment extends Fragment {
 
     /**
      * Check first and last name.
-     *
+     * TODO Refactor Validation
      * @return true if first and last name are valid
      */
     public boolean validateName() {

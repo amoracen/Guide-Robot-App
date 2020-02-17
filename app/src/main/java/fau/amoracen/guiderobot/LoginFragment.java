@@ -37,11 +37,8 @@ import java.util.regex.Pattern;
  */
 public class LoginFragment extends Fragment {
 
-    private TextInputEditText emailInputEditText;
     private TextInputLayout emailInputLayout;
-    private TextInputEditText passwordEditText;
     private TextInputLayout passwordLayout;
-    private TextView needHelpTextView;
     private String emailInput;
     private String passwordInput;
     private FirebaseAuth fireBaseAuth;
@@ -53,8 +50,6 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false);
     }
-
-
 
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
@@ -70,9 +65,7 @@ public class LoginFragment extends Fragment {
                     //Show Error
                     return;
                 }
-                if(validatePassword()){
-
-
+                if (validatePassword()) {
                     fireBaseAuth.signInWithEmailAndPassword(emailInput, passwordInput).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -89,7 +82,7 @@ public class LoginFragment extends Fragment {
                                     passwordLayout.setError("Invalid Password");
                                     passwordLayout.requestFocus();
                                 } catch (FirebaseNetworkException e) {
-                                    Toast.makeText(getContext(),"Failed to login.No Network available",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "Failed to login.No Network available", Toast.LENGTH_LONG).show();
                                 } catch (Exception e) {
                                     Log.e("Failed", e.getMessage());
                                 }
@@ -104,12 +97,12 @@ public class LoginFragment extends Fragment {
         });
         /*Email*/
         emailInputLayout = view.findViewById(R.id.emailTextInputLayout);
-        emailInputEditText = view.findViewById(R.id.emailInputEditText);
+        TextInputEditText emailInputEditText = view.findViewById(R.id.emailInputEditText);
         /*Password*/
         passwordLayout = view.findViewById(R.id.passwordTextInputLayout);
-        passwordEditText = view.findViewById(R.id.passwordInputEditText);
+        TextInputEditText passwordEditText = view.findViewById(R.id.passwordInputEditText);
 
-        needHelpTextView = view.findViewById(R.id.needHelpTextView);
+        TextView needHelpTextView = view.findViewById(R.id.needHelpTextView);
         /*TODO*/
         needHelpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +111,7 @@ public class LoginFragment extends Fragment {
             }
         });
     }
+
     /**
      * Check Email
      *
@@ -137,6 +131,7 @@ public class LoginFragment extends Fragment {
             return true;
         }
     }
+
     /**
      * Check Password.
      *

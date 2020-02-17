@@ -28,7 +28,7 @@ import androidx.fragment.app.Fragment;
 import java.io.IOException;
 
 /**
- * Bluetooth Fragment is responsible for pairing the phone and the jetson nano
+ * Bluetooth Fragment is responsible for pairing the phone and the server
  */
 public class BluetoothFragment extends Fragment {
 
@@ -64,6 +64,7 @@ public class BluetoothFragment extends Fragment {
         devicesList.setAdapter(listAdapter);
 
         //Check Bluetooth State
+        /*TODO implement doInBackground*/
         checkBluetoothState();
         //register a dedicated receiver for some Bluetooth actions
         getActivity().registerReceiver(devicesFoundReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));

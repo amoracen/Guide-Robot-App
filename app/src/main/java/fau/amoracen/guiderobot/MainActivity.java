@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(goToDashboard);
             finish();
         }
+        /*TODO Check if voice assistance is enable*/
     }
     /*Close TextToSpeech*/
     @Override

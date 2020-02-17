@@ -30,9 +30,7 @@ public class RegistrationHeightFragment extends Fragment {
 
     private TextInputEditText heightFeetEditText;
     private TextInputLayout heightFeetLayout;
-    private TextInputEditText heightInchesEditText;
     private TextInputLayout heightInchesLayout;
-    private TextView needHelpTextView;
     private String feetInput;
     private String inchesInput;
     private Bundle bundle;
@@ -58,23 +56,21 @@ public class RegistrationHeightFragment extends Fragment {
         heightFeetEditText = view.findViewById(R.id.feetInputEditText);
         /*Height in INCHES*/
         heightInchesLayout = view.findViewById(R.id.inchesTextInputLayout);
-        heightInchesEditText = view.findViewById(R.id.inchesInputEditText);
+        TextInputEditText heightInchesEditText = view.findViewById(R.id.inchesInputEditText);
 
         Button buttonNextPage = view.findViewById(R.id.nextPageButton);
         buttonNextPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validateHeight()) {
-                    System.out.println("ok");
-                    //bundle.putString("heightFeet", feetInput);
-                    //bundle.putString("heightInches", inchesInput);
-                    // Navigation.findNavController(view).navigate(R.id.action_registrationHeightFragment_to_PasswordFragment, bundle);
+                    bundle.putString("heightFeet", feetInput);
+                    bundle.putString("heightInches", inchesInput);
+                    Navigation.findNavController(view).navigate(R.id.action_registrationHeightFragment_to_PasswordFragment, bundle);
                 }
                 /*TODO FAST TESTING*/
-                bundle.putString("heightFeet", "5");
-                bundle.putString("heightInches", "10");
-                //Toast.makeText(getContext(), bundle.toString(), Toast.LENGTH_SHORT).show();
-                Navigation.findNavController(view).navigate(R.id.action_registrationHeightFragment_to_PasswordFragment, bundle);
+                //bundle.putString("heightFeet", "5");
+                //bundle.putString("heightInches", "10");
+                //Navigation.findNavController(view).navigate(R.id.action_registrationHeightFragment_to_PasswordFragment, bundle);
             }
         });
         heightInchesEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -86,7 +82,7 @@ public class RegistrationHeightFragment extends Fragment {
                 }
             }
         });
-        needHelpTextView = view.findViewById(R.id.needHelpTextView);
+        TextView needHelpTextView = view.findViewById(R.id.needHelpTextView);
         /*TODO*/
         needHelpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,5 +180,4 @@ public class RegistrationHeightFragment extends Fragment {
         super.onResume();
         sendAccessibilityEvent("Height Form 3-4");
     }
-
 }
