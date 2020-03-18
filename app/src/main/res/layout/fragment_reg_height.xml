@@ -11,7 +11,6 @@
         android:id="@+id/heightFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/backgroundgradient_1"
         android:focusable="false"
         android:importantForAccessibility="no"
         android:orientation="vertical"

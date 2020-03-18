@@ -13,7 +13,7 @@
     android:paddingTop="25dp"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
-    tools:context=".RegistrationFragment">
+    tools:context=".RegistrationEmailFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -42,6 +42,19 @@
             android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/micButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/mic_description_email"
+        android:minWidth="50dp"
+        android:minHeight="50dp"
+        app:fabCustomSize="75dp"
+        app:maxImageSize="50dp"
+        app:srcCompat="@drawable/ic_mic_blue_75dp" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailTextInputLayout"
         android:layout_width="match_parent"
@@ -59,6 +72,7 @@
             android:id="@+id/emailInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:accessibilityLiveRegion="polite"
             android:ems="10"
             android:hint="@string/enter_email"
             android:importantForAutofill="no"
@@ -84,19 +98,19 @@
         android:textSize="30sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/needHelpTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:contentDescription="@string/need_help"
-        android:ems="10"
-        android:minWidth="50dp"
-        android:minHeight="50dp"
-        android:text="@string/need_help"
-        android:textAlignment="center"
-        android:textColor="#050505"
-        android:textSize="24sp" />
+    <!-- <TextView
+         android:id="@+id/needHelpTextView"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="50dp"
+         android:contentDescription="@string/need_help"
+         android:ems="10"
+         android:minWidth="50dp"
+         android:minHeight="50dp"
+         android:text="@string/need_help"
+         android:textAlignment="center"
+         android:textColor="#050505"
+         android:textSize="24sp" />-->
 
 
 </LinearLayout>
