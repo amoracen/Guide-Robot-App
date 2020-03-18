@@ -40,7 +40,7 @@ public class SettingFragment extends Fragment {
                 firebaseAuth.signOut();
                 Intent toMainActivity = new Intent(getContext(), MainActivity.class);
                 startActivity(toMainActivity);
-                getActivity().finish();
+                getActivity().finishAffinity();
             }
         });
     }
