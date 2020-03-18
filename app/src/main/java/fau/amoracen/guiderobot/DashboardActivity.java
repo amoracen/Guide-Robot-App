@@ -1,10 +1,12 @@
 package fau.amoracen.guiderobot;
 
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -33,6 +35,7 @@ public class DashboardActivity extends AppCompatActivity {
     private boolean pairFragment = false;
     private BluetoothAdapter bluetoothAdapter;
     private static final int REQUEST_ACCESS_COARSE_LOCATION = 1;
+    private static final int REQUEST_ENABLE_BLUETOOTH = 11;
     BottomNavigationView bottomNavigationView;
 
     @Override
@@ -46,6 +49,9 @@ public class DashboardActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
         //Get bluetooth adapter
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        //checkPairedDevices();
+        checkBluetooth checkBluetooth = new checkBluetooth();
+        checkBluetooth.execute();
     }//EOF onCreate
 
     /**
@@ -70,6 +76,7 @@ public class DashboardActivity extends AppCompatActivity {
                             pairFragment = false;
                             break;
                     }
+                    assert selectedFragment != null;
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
                     return true;
                 }
@@ -102,8 +109,55 @@ public class DashboardActivity extends AppCompatActivity {
             Intent goToMainActivity = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(goToMainActivity);
             finish();
+        }
+    }
+
+    /**
+     * Start Connection to server
+     */
+    public class checkBluetooth extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            checkBluetoothState();
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+    }
+
+    /**
+     * Checking if Bluetooth is Enabled
+     */
+    private void checkBluetoothState() {
+        if (bluetoothAdapter == null) {
+            Toast.makeText(this, "Bluetooth is not supported on your device!", Toast.LENGTH_SHORT).show();
         } else {
+            if (!bluetoothAdapter.isEnabled()) {
+                //Toast.makeText(getActivity(), "You Need to Enable Bluetooth", Toast.LENGTH_SHORT).show();
+                Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableIntent, REQUEST_ENABLE_BLUETOOTH);
+            } else {
+                checkPairedDevices();
+            }
+        }
+    }
+    /**
+     * Checking user response
+     *
+     * @param requestCode integer
+     * @param resultCode  integer
+     * @param data        Intent
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
             checkPairedDevices();
+        }
+        if (resultCode == Activity.RESULT_CANCELED) {
+            Toast.makeText(this, "Bluetooth is Off", Toast.LENGTH_LONG).show();
         }
     }
 
