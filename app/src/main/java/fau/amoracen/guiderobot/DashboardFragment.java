@@ -70,7 +70,6 @@ public class DashboardFragment extends Fragment {
         destroyed = false;
         //Get bluetooth adapter
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        /*TODO implement doInBackground*/
         checkBluetoothState();
 
         startConnection.setOnClickListener(new View.OnClickListener() {
@@ -180,9 +179,9 @@ public class DashboardFragment extends Fragment {
                 }
             }
         }
-
         if (deviceFound) {
             bluetoothTextView.setText(deviceName.toUpperCase());
+            bluetoothTextView.setContentDescription("Pair to " + deviceName);
             //Check Connection on the background
             startConnection startConnection = new startConnection();
             startConnection.execute();
@@ -191,6 +190,7 @@ public class DashboardFragment extends Fragment {
             sendCommandButton.setEnabled(false);
         }
     }
+
 
     /**
      * Start Connection to server
@@ -201,10 +201,8 @@ public class DashboardFragment extends Fragment {
             try {
                 /*Start a new Connection*/
                 final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(deviceAddress);
-                if (myConnection == null) {
-                    myConnection = new BluetoothConnection(device);
-                    myConnection.start();
-                }
+                myConnection = new BluetoothConnection(device);
+                myConnection.start();
                 connected = true;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -219,10 +217,10 @@ public class DashboardFragment extends Fragment {
             super.onPostExecute(aVoid);
             if (connected) {
                 updateUIMessage(SUCCESS);
+                myConnection.closeSocket();
             } else {
                 updateUIMessage(FAILED);
             }
-
         }
     }
 
@@ -244,10 +242,8 @@ public class DashboardFragment extends Fragment {
             try {
                 /*Start a new Connection*/
                 final BluetoothDevice device = bluetoothAdapter.getRemoteDevice(deviceAddress);
-                if (myConnection == null) {
-                    myConnection = new BluetoothConnection(device);
-                    myConnection.start();
-                }
+                myConnection = new BluetoothConnection(device);
+                myConnection.start();
                 myConnection.send(messageToSend);
                 connected = true;
             } catch (IOException e) {
@@ -263,6 +259,7 @@ public class DashboardFragment extends Fragment {
             super.onPostExecute(aVoid);
             if (connected) {
                 updateUIMessage(SUCCESS_MSG);
+                myConnection.closeSocket();
             } else {
                 updateUIMessage(FAILED_MSG);
             }
