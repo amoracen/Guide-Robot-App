@@ -15,6 +15,13 @@ public class UserInfo {
     public UserInfo() {
 
     }
+    /**
+     * Parameterized constructor
+     */
+    UserInfo(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
     /**
      * Parameterized constructor
