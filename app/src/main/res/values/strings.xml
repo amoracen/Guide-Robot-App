@@ -36,7 +36,7 @@
     <string name="enable_bluetooth">Enable Bluetooth</string>
     <string name="select_device_to_pair">Select device to Pair</string>
     <string name="start_scanning">Start Scanning</string>
-    <string name="pair_to_device">Pair to Device</string>
+    <string name="pair_to_device">Pair to Robot</string>
     <string name="scanning_in_progress">Scanning in Progress …</string>
     <string name="scanning_completed">Scanning Completed</string>
     <string name="bluetooth_is_disable">Bluetooth is Disable</string>
@@ -56,4 +56,15 @@
     <string name="go_forward">Go Forward</string>
     <string name="go_in_circles">Go in Circles</string>
     <string name="draw_square">Draw a Square</string>
+    <string name="mic_description_email">Select microphone to Dictate your Email</string>
+    <string name="mic_description_FirstLastName">Select microphone to Dictate your First and Last Name</string>
+    <string name="mic_description_email_off">Voice Recognition is not Available. Microphone</string>
+    <string name="email_cannot_be_empty">Field for email can\'t be empty</string>
+    <string name="email_not_valid">Please enter a valid email address</string>
+    <string name="field_cannot_be_empty">Field can\'t be empty</string>
+    <string name="name_long">Name is too long.No more than 25 characters</string>
+    <string name="password_letters">Password must include a letter</string>
+    <string name="password_digits">Password must include at least one digit</string>
+    <string name="password_whiteSpaces">No white spaces allowed</string>
+    <string name="password_characters">Password must be at least 6 characters long</string>
 </resources>
