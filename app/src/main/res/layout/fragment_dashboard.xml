@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgroundgradient_1"
     android:importantForAccessibility="no">
 
-    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:id="@+id/settingFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,103 +61,99 @@
         <androidx.appcompat.widget.ActionMenuView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
             android:contentDescription="@null"
             android:minWidth="50dp"
             android:minHeight="50dp">
 
             <Button
-                android:id="@+id/startConnectionButton"
+                android:id="@+id/doorButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background_small"
-                android:contentDescription="@string/start_connection"
+                android:contentDescription="@string/take_me_to_the_door"
                 android:focusable="true"
-                android:text="@string/start_connection"
+                android:padding="10dp"
+                android:text="@string/take_me_to_the_door"
                 android:textSize="15sp"
                 android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/goForwardButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_background_small"
-                android:contentDescription="@string/go_forward"
-                android:focusable="true"
-                android:padding="5dp"
-                android:text="@string/go_forward"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-
         </androidx.appcompat.widget.ActionMenuView>
-
 
         <androidx.appcompat.widget.ActionMenuView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:contentDescription="@null"
             android:minWidth="50dp"
             android:minHeight="50dp">
 
             <Button
-                android:id="@+id/drawSquareButton"
+                android:id="@+id/option2Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background_small"
-                android:contentDescription="@string/draw_square"
+                android:contentDescription="@string/take_me_to_option_2"
                 android:focusable="true"
-                android:padding="7dp"
-                android:text="@string/draw_square"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/goInCirclesButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_background_small"
-                android:contentDescription="@string/go_in_circles"
-                android:focusable="true"
-                android:padding="5dp"
-                android:text="@string/go_in_circles"
+                android:padding="10dp"
+                android:text="@string/take_me_to_option_2"
                 android:textSize="15sp"
                 android:textStyle="bold" />
         </androidx.appcompat.widget.ActionMenuView>
 
-
-        <EditText
-            android:id="@+id/commandEditText"
+        <androidx.appcompat.widget.ActionMenuView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/edit_text_border"
-            android:ems="10"
-            android:hint="@string/enter_command"
-            android:importantForAutofill="no"
-            android:inputType="textPersonName"
+            android:layout_marginTop="20dp"
+            android:contentDescription="@null"
             android:minWidth="50dp"
-            android:minHeight="50dp"
-            android:padding="10dp"
-            android:text="@android:string/ok" />
+            android:minHeight="50dp">
 
-        <Button
-            android:id="@+id/sendButton"
+            <Button
+                android:id="@+id/option3Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background_small"
+                android:contentDescription="@string/take_me_to_option_3"
+                android:focusable="true"
+                android:padding="10dp"
+                android:text="@string/take_me_to_option_3"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </androidx.appcompat.widget.ActionMenuView>
+
+        <androidx.appcompat.widget.ActionMenuView
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:contentDescription="@null"
+            android:minWidth="50dp"
+            android:minHeight="50dp">
+
+            <Button
+                android:id="@+id/shutdownButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background_small"
+                android:contentDescription="@string/shutdown_robot"
+                android:focusable="true"
+                android:padding="10dp"
+                android:text="@string/shutdown_robot"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </androidx.appcompat.widget.ActionMenuView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/micButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/button_background_small"
-            android:contentDescription="@string/send_command_to_device"
-            android:focusable="true"
+            android:layout_marginTop="20dp"
+            android:contentDescription="@string/select_microphone"
             android:minWidth="50dp"
             android:minHeight="50dp"
-            android:padding="15dp"
-            android:text="@string/send"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            app:fabCustomSize="75dp"
+            app:maxImageSize="50dp"
+            app:srcCompat="@drawable/ic_mic_blue_75dp" />
 
         <TextView
             android:id="@+id/feedback_text_view"
@@ -165,6 +163,7 @@
             android:accessibilityLiveRegion="polite"
             android:background="@null"
             android:padding="10dp"
+            android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
             tools:visibility="invisible" />
