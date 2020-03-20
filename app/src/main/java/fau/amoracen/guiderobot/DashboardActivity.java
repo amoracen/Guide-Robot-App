@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
@@ -19,10 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Set;
 
 /**
  * Dashboard displays the bottom navigation and updates fragments
@@ -31,26 +26,25 @@ public class DashboardActivity extends AppCompatActivity {
 
 
     private boolean doubleBackToExitPressedOnce = false;
-    private FirebaseAuth firebaseAuth;
+    private Firebase myFirebase;
+    private BluetoothState bluetoothState;
     private boolean pairFragment = false;
-    private BluetoothAdapter bluetoothAdapter;
     private static final int REQUEST_ACCESS_COARSE_LOCATION = 1;
-    private static final int REQUEST_ENABLE_BLUETOOTH = 11;
-    BottomNavigationView bottomNavigationView;
+    private static final int REQUEST_ENABLE_BLUETOOTH_Activity = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         //Firebase
-        firebaseAuth = FirebaseAuth.getInstance();
+        myFirebase = new Firebase();
         //Reference to bottomNavigationView
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
         //Get bluetooth adapter
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        //checkPairedDevices();
-        checkBluetooth checkBluetooth = new checkBluetooth();
+        bluetoothState = BluetoothState.getInstance(BluetoothAdapter.getDefaultAdapter());
+        //Start AsyncTask to check bluetooth
+        checkBluetoothState checkBluetooth = new checkBluetoothState();
         checkBluetooth.execute();
     }//EOF onCreate
 
@@ -91,7 +85,7 @@ public class DashboardActivity extends AppCompatActivity {
             return;
         }
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        createToast("Please click BACK again to exit");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -104,8 +98,7 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         //Check if user is log in
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser == null) {
+        if (myFirebase.getCurrentUser() == null) {
             Intent goToMainActivity = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(goToMainActivity);
             finish();
@@ -113,36 +106,55 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     /**
-     * Start Connection to server
+     * Check if bluetooth is supported and enabled
      */
-    public class checkBluetooth extends AsyncTask<Void, Void, Void> {
+    public class checkBluetoothState extends AsyncTask<Void, Void, Void> {
+        private boolean bluetoothSupported = false;
+        private boolean bluetoothEnabled = false;
+
         @Override
         protected Void doInBackground(Void... params) {
-            checkBluetoothState();
+            if (bluetoothState.BluetoothSupported()) {
+                bluetoothSupported = true;
+            } else {
+                bluetoothEnabled = bluetoothState.checkBluetoothState();
+            }
             return null;
         }
+
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-        }
-    }
-
-    /**
-     * Checking if Bluetooth is Enabled
-     */
-    private void checkBluetoothState() {
-        if (bluetoothAdapter == null) {
-            Toast.makeText(this, "Bluetooth is not supported on your device!", Toast.LENGTH_SHORT).show();
-        } else {
-            if (!bluetoothAdapter.isEnabled()) {
-                //Toast.makeText(getActivity(), "You Need to Enable Bluetooth", Toast.LENGTH_SHORT).show();
-                Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableIntent, REQUEST_ENABLE_BLUETOOTH);
+            if (!bluetoothSupported) {
+                createToast("Bluetooth is not supported on your device!");
             } else {
-                checkPairedDevices();
+                if (bluetoothEnabled) {
+                    checkPairedDevices();
+                } else {
+                    startBluetoothIntent();
+                }
             }
         }
     }
+
+
+    /**
+     * Create a Toast message
+     *
+     * @param message a string
+     */
+    public void createToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Start Intent to request permission to use Bluetooth
+     */
+    public void startBluetoothIntent() {
+        Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        startActivityForResult(enableIntent, REQUEST_ENABLE_BLUETOOTH_Activity);
+    }
+
     /**
      * Checking user response
      *
@@ -153,36 +165,30 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            checkPairedDevices();
-        }
-        if (resultCode == Activity.RESULT_CANCELED) {
-            Toast.makeText(this, "Bluetooth is Off", Toast.LENGTH_LONG).show();
+        if (requestCode == REQUEST_ENABLE_BLUETOOTH_Activity) {
+            if (resultCode == Activity.RESULT_OK) {
+                checkPairedDevices();
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //createToast("Bluetooth is not Enabled");
+                //Create a new Dashboard Fragment
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
+            }
         }
     }
 
     /**
      * Checking if the devices were paired
-     * TODO implement doInBackground
      */
     public void checkPairedDevices() {
-        Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
-        boolean deviceFound = false;
-        if (pairedDevices.size() > 0) {
-            // There are paired devices. Get the name and address of each paired device.
-            for (BluetoothDevice device : pairedDevices) {
-                Log.i("Devices Paired", device.getName());
-                if ("guide-robot".equals(device.getName())) {
-                    deviceFound = true;
-                    //Create a new Dashboard Fragment
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
-                }
-            }
-        }
-        if (!deviceFound) {
-            Toast.makeText(this, "There are not paired devices", Toast.LENGTH_SHORT).show();
+        BluetoothDevice myDevice = bluetoothState.getBluetoothDevice();
+        if (myDevice != null) {
+            //Create a new Dashboard Fragment
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
+        } else {
+            createToast("There are not paired devices");
             pairFragment = true;
-            //Create a new Bluetooth Fragment
+            //Create a new Pair Fragment
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new BluetoothFragment()).commit();
         }
     }
@@ -198,22 +204,18 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQUEST_ACCESS_COARSE_LOCATION:
-                if (!pairFragment) {
-                    break;
-                }
-                Button scanningButton = findViewById(R.id.scanningBtn);
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    scanningButton.setEnabled(true);
-                    Toast.makeText(getApplicationContext(), "Access coarse location allowed. You can scan for bluetooth devices", Toast.LENGTH_SHORT).show();
-                } else {
-                    scanningButton.setEnabled(false);
-                    Toast.makeText(getApplicationContext(), "Access coarse location not allowed. You can not scan for bluetooth devices", Toast.LENGTH_SHORT).show();
-
-                }
-                break;
+        if (requestCode == REQUEST_ACCESS_COARSE_LOCATION) {
+            if (!pairFragment) {
+                return;
+            }
+            Button scanningButton = findViewById(R.id.scanningBtn);
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                scanningButton.setEnabled(true);
+                createToast("Access coarse location allowed. You can scan for bluetooth devices");
+            } else {
+                scanningButton.setEnabled(false);
+                createToast("Access coarse location not allowed. You can not scan for bluetooth devices");
+            }
         }
     }
 }//EOF CLASS
