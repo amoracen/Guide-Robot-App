@@ -1,4 +1,4 @@
-package fau.amoracen.guiderobot;
+package fau.amoracen.guiderobot.service;
 
 import androidx.annotation.NonNull;
 
@@ -14,10 +14,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.List;
 import java.util.Objects;
 
+import fau.amoracen.guiderobot.data.UserInfo;
+
 /**
  * A class to manage Firebase
  */
-class Firebase {
+public class Firebase {
     private FirebaseAuth myfirebaseAuth;
     private boolean emailFound;
     private DatabaseReference myRef;
@@ -25,7 +27,7 @@ class Firebase {
     /**
      * Constructor
      */
-    Firebase() {
+    public Firebase() {
         myfirebaseAuth = FirebaseAuth.getInstance();
     }
 
@@ -34,7 +36,7 @@ class Firebase {
      *
      * @return FirebaseAuth
      */
-    FirebaseAuth getMyFirebaseAuth() {
+    public FirebaseAuth getMyFirebaseAuth() {
         return myfirebaseAuth;
     }
 
@@ -44,7 +46,7 @@ class Firebase {
      *
      * @return an instance of the current user
      */
-    FirebaseUser getCurrentUser() {
+    public FirebaseUser getCurrentUser() {
         return myfirebaseAuth.getCurrentUser();
     }
 
@@ -53,7 +55,7 @@ class Firebase {
      *
      * @param emailInput a string representing the user's input
      */
-    void checkEmailOnDatabase(String emailInput) {
+    public void checkEmailOnDatabase(String emailInput) {
         setEmailFound(true);
         myfirebaseAuth.fetchSignInMethodsForEmail(emailInput).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
             @Override
@@ -85,7 +87,7 @@ class Firebase {
      *
      * @return a boolean
      */
-    boolean getEmailFound() {
+    public boolean getEmailFound() {
         return emailFound;
     }
 
@@ -94,7 +96,7 @@ class Firebase {
      *
      * @param path a string
      */
-    void setFireBaseDatabase(String path) {
+    public void setFireBaseDatabase(String path) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         this.myRef = database.getReference(path);
     }
@@ -104,7 +106,7 @@ class Firebase {
      *
      * @param userInfo an instance of the UserInfo class
      */
-    void insertUser(UserInfo userInfo) {
+    public void insertUser(UserInfo userInfo) {
         myRef.child(Objects.requireNonNull(myfirebaseAuth.getUid())).setValue(userInfo);
     }
 }

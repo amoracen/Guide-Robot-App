@@ -1,4 +1,4 @@
-package fau.amoracen.guiderobot;
+package fau.amoracen.guiderobot.service;
 
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
@@ -13,12 +13,12 @@ import java.util.Locale;
 /**
  * Class to implement text to Speech
  */
-class TextToSpeechService {
+public class TextToSpeechService {
     private boolean ttsIsInitialized = false;
     private boolean screenReader;
     private TextToSpeech textToSpeech;
 
-    TextToSpeechService(Context context) {
+    public TextToSpeechService(Context context) {
         //Check if screen reader is on
         AccessibilityManager accessibilityManager = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
         if (accessibilityManager != null && accessibilityManager.isEnabled()) {
@@ -56,7 +56,7 @@ class TextToSpeechService {
      *
      * @param text a string representing what to read to the user
      */
-    void speak(String text) {
+    public void speak(String text) {
         if (!ttsIsInitialized) {
             return;
         }
@@ -67,13 +67,13 @@ class TextToSpeechService {
         }
     }
 
-    void stopTextToSpeech() {
+    public void stopTextToSpeech() {
         if (textToSpeech == null) return;
         textToSpeech.stop();
         textToSpeech.shutdown();
     }
 
-    boolean isScreenReader() {
+    public boolean isScreenReader() {
         return screenReader;
     }
 }

@@ -1,4 +1,4 @@
-package fau.amoracen.guiderobot;
+package fau.amoracen.guiderobot.ui.mainactivity.registration;
 
 
 import android.os.Bundle;
@@ -22,6 +22,12 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+
+import fau.amoracen.guiderobot.R;
+import fau.amoracen.guiderobot.service.Firebase;
+import fau.amoracen.guiderobot.service.MyAccessibilityEvent;
+import fau.amoracen.guiderobot.service.SpeechToTextService;
+import fau.amoracen.guiderobot.service.ValidateInput;
 
 /**
  * Registration Fragment Email Section

@@ -16,11 +16,11 @@
         tools:ignore="LockedOrientationActivity"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".DashboardActivity"
+            android:name=".ui.dashboardactivity.DashboardActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name="fau.amoracen.guiderobot.MainActivity"
+        <activity android:name="fau.amoracen.guiderobot.ui.mainactivity.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>

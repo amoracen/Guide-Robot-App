@@ -1,4 +1,4 @@
-package fau.amoracen.guiderobot;
+package fau.amoracen.guiderobot.ui.mainactivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,11 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import fau.amoracen.guiderobot.R;
+import fau.amoracen.guiderobot.service.Firebase;
+import fau.amoracen.guiderobot.service.TextToSpeechService;
+import fau.amoracen.guiderobot.ui.dashboardactivity.DashboardActivity;
 
 /**
  * MainActivity displays two main options to the user, Create Account and Login

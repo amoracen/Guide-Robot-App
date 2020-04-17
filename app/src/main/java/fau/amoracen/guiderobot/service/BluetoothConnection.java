@@ -1,4 +1,4 @@
-package fau.amoracen.guiderobot;
+package fau.amoracen.guiderobot.service;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;

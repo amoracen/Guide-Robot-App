@@ -1,4 +1,4 @@
-package fau.amoracen.guiderobot;
+package fau.amoracen.guiderobot.service;
 
 import android.Manifest;
 import android.app.Activity;
@@ -13,13 +13,13 @@ import androidx.core.content.ContextCompat;
 
 import java.util.Objects;
 
-class SpeechToTextService {
+public class SpeechToTextService {
     private static final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
     private SpeechRecognizer speechRecognizer;
     private Context context;
     private boolean isRecognitionAvailable = false;
 
-    SpeechToTextService(Context context) {
+    public SpeechToTextService(Context context) {
         this.context = context;
         if (SpeechRecognizer.isRecognitionAvailable(context)) {
             isRecognitionAvailable = true;
@@ -32,7 +32,7 @@ class SpeechToTextService {
     }
 
 
-    void startListening(Activity activity) {
+    public void startListening(Activity activity) {
         if (checkPermission()) {
             // No explanation needed; request the permission
             ActivityCompat.requestPermissions(Objects.requireNonNull(activity), new String[]{Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_REQUEST_RECORD_AUDIO);
@@ -47,11 +47,11 @@ class SpeechToTextService {
         }
     }
 
-    SpeechRecognizer getSpeechRecognizer() {
+    public SpeechRecognizer getSpeechRecognizer() {
         return speechRecognizer;
     }
 
-    boolean isRecognitionAvailable() {
+    public boolean isRecognitionAvailable() {
         return isRecognitionAvailable;
     }
 }//EOF Class

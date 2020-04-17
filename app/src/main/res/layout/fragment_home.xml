@@ -11,7 +11,7 @@
     android:paddingTop="25dp"
     android:focusable="false"
     android:importantForAccessibility="no"
-    tools:context=".HomeFragment">
+    tools:context=".ui.mainactivity.HomeFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"

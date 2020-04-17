@@ -12,7 +12,7 @@
     android:paddingTop="25dp"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
-    tools:context=".SettingFragment">
+    tools:context=".ui.dashboardactivity.SettingFragment">
 
 
     <androidx.cardview.widget.CardView

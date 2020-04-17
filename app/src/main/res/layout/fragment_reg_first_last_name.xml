@@ -18,7 +18,7 @@
         android:paddingTop="25dp"
         android:paddingRight="16dp"
         android:paddingBottom="16dp"
-        tools:context=".RegistrationFirstLastNameFragment">
+        tools:context=".ui.mainactivity.registration.RegistrationFirstLastNameFragment">
 
 
         <androidx.cardview.widget.CardView

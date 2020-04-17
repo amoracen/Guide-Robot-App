@@ -1,4 +1,4 @@
-package fau.amoracen.guiderobot;
+package fau.amoracen.guiderobot.ui.mainactivity;
 
 
 import android.os.Bundle;
@@ -11,6 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+
+import fau.amoracen.guiderobot.R;
+import fau.amoracen.guiderobot.service.MyAccessibilityEvent;
 
 /**
  * HomeFragment displays the button to Create Account and Login

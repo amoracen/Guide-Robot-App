@@ -5,7 +5,7 @@
     app:startDestination="@+id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="fau.amoracen.guiderobot.HomeFragment"
+        android:name="fau.amoracen.guiderobot.ui.mainactivity.HomeFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_home">
         <action
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="fau.amoracen.guiderobot.RegistrationEmailFragment"
+        android:name="fau.amoracen.guiderobot.ui.mainactivity.registration.RegistrationEmailFragment"
         android:label="Registration"
         tools:layout="@layout/fragment_reg_email">
         <action
@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/firstLastNameFragment"
-        android:name="fau.amoracen.guiderobot.RegistrationFirstLastNameFragment"
+        android:name="fau.amoracen.guiderobot.ui.mainactivity.registration.RegistrationFirstLastNameFragment"
         android:label="First and Last Name Form"
         tools:layout="@layout/fragment_reg_first_last_name">
         <action
@@ -38,7 +38,7 @@
     </fragment>
     <!--<fragment
         android:id="@+id/registrationHeightFragment"
-        android:name="fau.amoracen.guiderobot.RegistrationHeightFragment"
+        android:name="fau.amoracen.guiderobot.ui.mainactivity.registration.RegistrationHeightFragment"
         android:label="Height"
         tools:layout="@layout/fragment_reg_height">
         <action
@@ -48,7 +48,7 @@
 
     <fragment
         android:id="@+id/passwordFragment"
-        android:name="fau.amoracen.guiderobot.RegistrationPasswordFragment"
+        android:name="fau.amoracen.guiderobot.ui.mainactivity.registration.RegistrationPasswordFragment"
         android:label="Password"
         tools:layout="@layout/fragment_password">
         <action
@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="fau.amoracen.guiderobot.LoginFragment"
+        android:name="fau.amoracen.guiderobot.ui.mainactivity.login.LoginFragment"
         android:label="Login"
         tools:layout="@layout/fragment_login">
         <action
@@ -66,7 +66,7 @@
     </fragment>
     <!--<activity
         android:id="@+id/dashboardActivity"
-        android:name="fau.amoracen.guiderobot.DashboardActivity"
+        android:name="fau.amoracen.guiderobot.ui.dashboardactivity.DashboardActivity"
         android:label="Dashboard"
         tools:layout="@layout/activity_dashboard">
         <action
@@ -81,19 +81,19 @@
     </activity>-->
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="fau.amoracen.guiderobot.DashboardFragment"
+        android:name="fau.amoracen.guiderobot.ui.dashboardactivity.DashboardFragment"
         tools:layout="@layout/fragment_dashboard">
 
     </fragment>
     <fragment
         android:id="@+id/bluetoothFragment"
-        android:name="fau.amoracen.guiderobot.BluetoothFragment"
+        android:name="fau.amoracen.guiderobot.ui.dashboardactivity.BluetoothFragment"
         tools:layout="@layout/fragment_bluetooth">
 
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
-        android:name="fau.amoracen.guiderobot.SettingFragment"
+        android:name="fau.amoracen.guiderobot.ui.dashboardactivity.SettingFragment"
         tools:layout="@layout/fragment_setting">
         <action
             android:id="@+id/action_SettingFragment_to_HomeFragment"

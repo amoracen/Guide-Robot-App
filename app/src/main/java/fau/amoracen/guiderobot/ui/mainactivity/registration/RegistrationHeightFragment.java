@@ -1,4 +1,4 @@
-package fau.amoracen.guiderobot;
+package fau.amoracen.guiderobot.ui.mainactivity.registration;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +13,9 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
+
+import fau.amoracen.guiderobot.R;
+import fau.amoracen.guiderobot.service.MyAccessibilityEvent;
 
 /**
  * Height Section

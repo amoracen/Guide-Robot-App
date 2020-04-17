@@ -18,7 +18,7 @@
         android:paddingTop="25dp"
         android:paddingRight="16dp"
         android:paddingBottom="16dp"
-        tools:context=".RegistrationHeightFragment">
+        tools:context=".ui.mainactivity.registration.RegistrationHeightFragment">
 
 
         <androidx.cardview.widget.CardView

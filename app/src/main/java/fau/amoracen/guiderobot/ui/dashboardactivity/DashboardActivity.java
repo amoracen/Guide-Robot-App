@@ -1,4 +1,4 @@
-package fau.amoracen.guiderobot;
+package fau.amoracen.guiderobot.ui.dashboardactivity;
 
 
 import android.app.Activity;
@@ -18,6 +18,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import fau.amoracen.guiderobot.R;
+import fau.amoracen.guiderobot.service.BluetoothState;
+import fau.amoracen.guiderobot.service.Firebase;
+import fau.amoracen.guiderobot.ui.mainactivity.MainActivity;
 
 /**
  * Dashboard displays the bottom navigation and updates fragments

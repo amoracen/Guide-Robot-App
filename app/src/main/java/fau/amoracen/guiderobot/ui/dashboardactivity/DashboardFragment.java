@@ -1,4 +1,4 @@
-package fau.amoracen.guiderobot;
+package fau.amoracen.guiderobot.ui.dashboardactivity;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -25,6 +25,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 import java.util.List;
+
+import fau.amoracen.guiderobot.R;
+import fau.amoracen.guiderobot.service.BluetoothConnection;
+import fau.amoracen.guiderobot.service.BluetoothState;
+import fau.amoracen.guiderobot.service.SpeechToTextService;
 
 /**
  * Dashboard Fragment

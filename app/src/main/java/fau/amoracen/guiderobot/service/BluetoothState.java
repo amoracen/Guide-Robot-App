@@ -1,4 +1,4 @@
-package fau.amoracen.guiderobot;
+package fau.amoracen.guiderobot.service;
 
 
 import android.bluetooth.BluetoothAdapter;
@@ -38,7 +38,7 @@ public class BluetoothState {
     /**
      * Checking if Bluetooth is Enabled
      */
-    boolean checkBluetoothState() {
+    public boolean checkBluetoothState() {
         if(bluetoothAdapter == null){
             return false;
         }
@@ -50,7 +50,7 @@ public class BluetoothState {
      *
      * @return a boolean, true if bluetooth is supported
      */
-    boolean BluetoothSupported() {
+    public boolean BluetoothSupported() {
         return bluetoothAdapter != null;
     }
 
@@ -59,7 +59,7 @@ public class BluetoothState {
      *
      * @return a Bluetooth device, null if the device is not found
      */
-    BluetoothDevice getBluetoothDevice() {
+    public BluetoothDevice getBluetoothDevice() {
         Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
         if (pairedDevices.size() > 0) {
             // There are paired devices. Get the name and address of each paired device.

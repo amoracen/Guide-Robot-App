@@ -1,13 +1,13 @@
-package fau.amoracen.guiderobot;
+package fau.amoracen.guiderobot.service;
 
 import android.content.Context;
 import android.view.accessibility.AccessibilityManager;
 
-class MyAccessibilityEvent {
+public class MyAccessibilityEvent {
     private static MyAccessibilityEvent instance;
 
 
-    synchronized static MyAccessibilityEvent getInstance() {
+    public synchronized static MyAccessibilityEvent getInstance() {
         if (instance == null) {
             instance = new MyAccessibilityEvent();
         }
@@ -19,7 +19,7 @@ class MyAccessibilityEvent {
      *
      * @param msg a string
      */
-    void sendAccessibilityEvent(Context context, final String msg) {
+    public void sendAccessibilityEvent(Context context, final String msg) {
         try {
             AccessibilityManager manager = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
             if (manager != null && manager.isEnabled()) {

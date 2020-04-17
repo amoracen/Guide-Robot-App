@@ -1,4 +1,4 @@
-package fau.amoracen.guiderobot;
+package fau.amoracen.guiderobot.ui.dashboardactivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import fau.amoracen.guiderobot.R;
+import fau.amoracen.guiderobot.ui.mainactivity.MainActivity;
 
 /**
  * Settings Fragment

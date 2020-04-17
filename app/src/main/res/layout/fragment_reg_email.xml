@@ -13,7 +13,7 @@
     android:paddingTop="25dp"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
-    tools:context=".RegistrationEmailFragment">
+    tools:context=".ui.mainactivity.registration.RegistrationEmailFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

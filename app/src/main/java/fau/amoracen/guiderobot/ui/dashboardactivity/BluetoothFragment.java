@@ -1,4 +1,4 @@
-package fau.amoracen.guiderobot;
+package fau.amoracen.guiderobot.ui.dashboardactivity;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
@@ -26,6 +26,9 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import java.io.IOException;
+
+import fau.amoracen.guiderobot.R;
+import fau.amoracen.guiderobot.service.BluetoothConnection;
 
 /**
  * Bluetooth Fragment is responsible for pairing the phone and the server

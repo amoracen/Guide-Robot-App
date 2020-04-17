@@ -16,7 +16,7 @@
         android:paddingTop="25dp"
         android:paddingRight="16dp"
         android:paddingBottom="16dp"
-        tools:context=".LoginFragment">
+        tools:context=".ui.mainactivity.login.LoginFragment">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

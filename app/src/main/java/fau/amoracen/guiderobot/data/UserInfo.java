@@ -1,4 +1,4 @@
-package fau.amoracen.guiderobot;
+package fau.amoracen.guiderobot.data;
 
 /**
  * Class to represent the user's information
@@ -18,7 +18,7 @@ public class UserInfo {
     /**
      * Parameterized constructor
      */
-    UserInfo(String firstName, String lastName) {
+    public UserInfo(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }

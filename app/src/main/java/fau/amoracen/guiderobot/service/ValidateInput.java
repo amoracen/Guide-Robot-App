@@ -1,4 +1,4 @@
-package fau.amoracen.guiderobot;
+package fau.amoracen.guiderobot.service;
 
 import android.content.Context;
 import android.util.Patterns;
@@ -6,14 +6,16 @@ import android.util.Patterns;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
+import fau.amoracen.guiderobot.R;
+
 /**
  * Validate all types of inputs
  */
-class ValidateInput {
+public class ValidateInput {
     private static ValidateInput instance;
     private HashMap<String, String> hmap;
 
-    synchronized static ValidateInput getInstance() {
+    public synchronized static ValidateInput getInstance() {
         if (instance == null) {
             instance = new ValidateInput();
         }
@@ -25,7 +27,7 @@ class ValidateInput {
      *
      * @return true if a valid email was entered, false otherwise
      */
-    HashMap validateEmail(Context context, String input) {
+    public HashMap validateEmail(Context context, String input) {
         hmap = new HashMap<>();
         if (input.isEmpty()) {
             hmap.put("message", getStringResource(context, R.string.email_cannot_be_empty));
@@ -43,7 +45,7 @@ class ValidateInput {
      *
      * @return true if  name is valid
      */
-    HashMap validateName(Context context, String input) {
+    public HashMap validateName(Context context, String input) {
         hmap = new HashMap<>();
         if (input.isEmpty()) {
             hmap.put("message", getStringResource(context, R.string.field_cannot_be_empty));
@@ -62,7 +64,7 @@ class ValidateInput {
      * @param input a string
      * @return true if password is valid
      */
-    HashMap validatePassword(Context context, String input) {
+    public HashMap validatePassword(Context context, String input) {
         hmap = new HashMap<>();
         Pattern anyLetter = Pattern.compile("(?=.*[a-zA-Z])");
         Pattern oneDigit = Pattern.compile("(?=.*[0-9])");
