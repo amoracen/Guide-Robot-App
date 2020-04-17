@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="fau.amoracen.guiderobot.HomeFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_regitrationFragment"
+            app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="fau.amoracen.guiderobot.RegistrationEmailFragment"
+        android:label="Registration"
+        tools:layout="@layout/fragment_reg_email">
+        <action
+            android:id="@+id/action_registrationFragment_to_FirstLastNameFragment"
+            app:destination="@id/firstLastNameFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/firstLastNameFragment"
+        android:name="fau.amoracen.guiderobot.RegistrationFirstLastNameFragment"
+        android:label="First and Last Name Form"
+        tools:layout="@layout/fragment_reg_first_last_name">
+        <action
+            android:id="@+id/action_firstLastNameFragment_to_RegistrationPassword"
+            app:destination="@id/passwordFragment" />
+
+    </fragment>
+    <!--<fragment
+        android:id="@+id/registrationHeightFragment"
+        android:name="fau.amoracen.guiderobot.RegistrationHeightFragment"
+        android:label="Height"
+        tools:layout="@layout/fragment_reg_height">
+        <action
+            android:id="@+id/action_registrationHeightFragment_to_PasswordFragment"
+            app:destination="@id/passwordFragment" />
+    </fragment>-->
+
+    <fragment
+        android:id="@+id/passwordFragment"
+        android:name="fau.amoracen.guiderobot.RegistrationPasswordFragment"
+        android:label="Password"
+        tools:layout="@layout/fragment_password">
+        <action
+            android:id="@+id/action_passwordFragment_to_dashboardActivity"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="fau.amoracen.guiderobot.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_LoginFragment_to_DashboardActivity"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+    <!--<activity
+        android:id="@+id/dashboardActivity"
+        android:name="fau.amoracen.guiderobot.DashboardActivity"
+        android:label="Dashboard"
+        tools:layout="@layout/activity_dashboard">
+        <action
+            android:id="@+id/action_DashboardActivity_to_DashboardFragment"
+            app:destination="@id/dashboardFragment" />
+        <action
+            android:id="@+id/action_DashboardActivity_to_BluetoothFragment"
+            app:destination="@id/bluetoothFragment" />
+        <action
+            android:id="@+id/action_DashboardActivity_to_SettingFragment"
+            app:destination="@id/settingFragment" />
+    </activity>-->
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="fau.amoracen.guiderobot.DashboardFragment"
+        tools:layout="@layout/fragment_dashboard">
+
+    </fragment>
+    <fragment
+        android:id="@+id/bluetoothFragment"
+        android:name="fau.amoracen.guiderobot.BluetoothFragment"
+        tools:layout="@layout/fragment_bluetooth">
+
+    </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="fau.amoracen.guiderobot.SettingFragment"
+        tools:layout="@layout/fragment_setting">
+        <action
+            android:id="@+id/action_SettingFragment_to_HomeFragment"
+            app:destination="@id/homeFragment" />
+
+    </fragment>
+</navigation>
