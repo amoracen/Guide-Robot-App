@@ -117,8 +117,9 @@ public class DashboardActivity extends AppCompatActivity {
             if (bluetoothState.BluetoothSupported()) {
                 bluetoothSupported = true;
             } else {
-                bluetoothEnabled = bluetoothState.checkBluetoothState();
+                return null;
             }
+            bluetoothEnabled = bluetoothState.checkBluetoothState();
             return null;
         }
 
@@ -127,6 +128,8 @@ public class DashboardActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             if (!bluetoothSupported) {
                 createToast("Bluetooth is not supported on your device!");
+                //Create a new Dashboard Fragment
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
             } else {
                 if (bluetoothEnabled) {
                     checkPairedDevices();
