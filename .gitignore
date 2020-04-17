@@ -12,3 +12,9 @@
 /captures
 .externalNativeBuild
 .cxx
+.idea
+gradle.properties
+gradlew
+gradlew.bat
+settings.gradle
+/gradle
