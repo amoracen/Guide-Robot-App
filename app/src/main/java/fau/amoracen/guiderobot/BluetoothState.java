@@ -39,6 +39,9 @@ public class BluetoothState {
      * Checking if Bluetooth is Enabled
      */
     boolean checkBluetoothState() {
+        if(bluetoothAdapter == null){
+            return false;
+        }
         return bluetoothAdapter.isEnabled();
     }
 
