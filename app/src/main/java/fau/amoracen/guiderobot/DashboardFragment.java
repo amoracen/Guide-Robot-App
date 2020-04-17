@@ -96,7 +96,7 @@ public class DashboardFragment extends Fragment {
         shutdownBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setConnection("STOP");
+                setConnection("SHUTDOWN");
             }
         });
         micButton = view.findViewById(R.id.micButton);
@@ -192,7 +192,7 @@ public class DashboardFragment extends Fragment {
         } else {
             if (input.contains("shut down")) {
                 createToast("Take me to: -> " + input);
-                setConnection("STOP");
+                setConnection("SHUTDOWN");
             } else {
                 createToast(input);
             }
