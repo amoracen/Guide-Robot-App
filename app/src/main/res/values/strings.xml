@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">GuideRobot</string>
-
+    <string name="app_name">Guide Robot</string>
     <string name="welcome_msg">Welcome to the Guide Robot App</string>
     <string name="welcome_description">Welcome to the Guide Robot App.Select between Creating a new Account or Login.</string>
     <string name="create_account">Create Account</string>
