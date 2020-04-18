@@ -75,6 +75,7 @@
                 android:focusable="true"
                 android:padding="10dp"
                 android:text="@string/take_me_to_the_door"
+                android:textAllCaps="false"
                 android:textSize="15sp"
                 android:textStyle="bold" />
         </androidx.appcompat.widget.ActionMenuView>
@@ -96,6 +97,7 @@
                 android:focusable="true"
                 android:padding="10dp"
                 android:text="@string/take_me_to_option_2"
+                android:textAllCaps="false"
                 android:textSize="15sp"
                 android:textStyle="bold" />
         </androidx.appcompat.widget.ActionMenuView>
@@ -113,10 +115,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background_small"
-                android:contentDescription="@string/take_me_to_option_3"
+                android:contentDescription="@string/go_to_docking_station"
                 android:focusable="true"
                 android:padding="10dp"
-                android:text="@string/take_me_to_option_3"
+                android:text="@string/go_to_docking_station"
+                android:textAllCaps="false"
                 android:textSize="15sp"
                 android:textStyle="bold" />
         </androidx.appcompat.widget.ActionMenuView>
@@ -138,6 +141,7 @@
                 android:focusable="true"
                 android:padding="10dp"
                 android:text="@string/shutdown_robot"
+                android:textAllCaps="false"
                 android:textSize="15sp"
                 android:textStyle="bold" />
         </androidx.appcompat.widget.ActionMenuView>
