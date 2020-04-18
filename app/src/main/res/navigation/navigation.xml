@@ -87,8 +87,8 @@
     </fragment>
     <fragment
         android:id="@+id/bluetoothFragment"
-        android:name="fau.amoracen.guiderobot.ui.dashboardactivity.BluetoothFragment"
-        tools:layout="@layout/fragment_bluetooth">
+        android:name="fau.amoracen.guiderobot.ui.dashboardactivity.PairDevicesFragment"
+        tools:layout="@layout/fragment_pair_devices">
 
     </fragment>
     <fragment
