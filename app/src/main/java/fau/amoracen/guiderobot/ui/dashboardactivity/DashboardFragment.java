@@ -3,6 +3,7 @@ package fau.amoracen.guiderobot.ui.dashboardactivity;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,10 +38,8 @@ import fau.amoracen.guiderobot.service.SpeechToTextService;
 public class DashboardFragment extends Fragment {
 
     private static final int REQUEST_ENABLE_BLUETOOTH_Fragment = 2;
-    /*UI Widgets*/
-    private TextView bluetoothTextView;
+    private static final String BluetoothNOTEnable = "BluetoothNOTEnable";
     private ImageView bluetoothImageView;
-    private TextView feedbackTextView;
     /*Bluetooth*/
     private BluetoothConnection myConnection;
     private BluetoothDevice myDevice;
@@ -53,8 +52,12 @@ public class DashboardFragment extends Fragment {
     private static final String FAILED = "NOT CONNECTED";
     private static final String FAILED_MSG = "MESSAGE_FAILED";
     private static final String BluetoothEnable = "BluetoothEnable";
+    /*UI Widgets*/
+    private TextView bluetoothTextView, feedbackTextView;
     private FloatingActionButton micButton;
     private SpeechToTextService speechToTextService;
+    private pairDeviceListener pairDeviceListener;
+    private Button doorButton, option2Button, option3Button, shutdownBTN;
 
 
     @Nullable
@@ -72,32 +75,29 @@ public class DashboardFragment extends Fragment {
         bluetoothTextView = view.findViewById(R.id.bluetoothTextView);
         feedbackTextView = view.findViewById(R.id.feedback_text_view);
         destroyed = false;
-        //Get bluetooth adapter
-        bluetoothState = BluetoothState.getInstance(BluetoothAdapter.getDefaultAdapter());
-        checkBluetoothState();
 
-        Button doorButton = view.findViewById(R.id.doorButton);
+        doorButton = view.findViewById(R.id.doorButton);
         doorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setConnection("OPTION1");
             }
         });
-        Button option2Button = view.findViewById(R.id.option2Button);
+        option2Button = view.findViewById(R.id.option2Button);
         option2Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setConnection("OPTION2");
             }
         });
-        Button option3Button = view.findViewById(R.id.option3Button);
+        option3Button = view.findViewById(R.id.option3Button);
         option3Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setConnection("OPTION3");
             }
         });
-        Button shutdownBTN = view.findViewById(R.id.shutdownButton);
+        shutdownBTN = view.findViewById(R.id.shutdownButton);
         shutdownBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,7 +111,16 @@ public class DashboardFragment extends Fragment {
                 speechToTextService.startListening(getActivity());
             }
         });
+        bluetoothImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkBluetoothState();
+            }
+        });
         initializeSpeechRecognizer();
+        //Get bluetooth adapter
+        bluetoothState = BluetoothState.getInstance(BluetoothAdapter.getDefaultAdapter());
+        checkBluetoothState();
     }//EOF onViewCreated
 
     /**
@@ -188,9 +197,6 @@ public class DashboardFragment extends Fragment {
             } else if (input.contains("table")) {
                 createToast("Take me to: -> " + input);
                 setConnection("OPTION2");
-            } else if (input.contains("restroom")) {
-                createToast("Take me to: -> " + input);
-                setConnection("OPTION3");
             } else {
                 createToast(input);
             }
@@ -198,6 +204,9 @@ public class DashboardFragment extends Fragment {
             if (input.contains("shut down")) {
                 createToast("Take me to: -> " + input);
                 setConnection("SHUTDOWN");
+            } else if (input.contains("docking")) {
+                createToast("Go to: -> " + input);
+                setConnection("OPTION3");
             } else {
                 createToast(input);
             }
@@ -254,7 +263,7 @@ public class DashboardFragment extends Fragment {
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(getContext(), "Bluetooth is not Enable", Toast.LENGTH_LONG).show();
-                /*TODO DISABLE ALL BUTTONS*/
+                updateUIButtons(BluetoothNOTEnable);
             }
         }
     }
@@ -273,7 +282,8 @@ public class DashboardFragment extends Fragment {
             setConnection(null);
         } else {
             createToast("There are not paired devices");
-            /*TODO DISABLE ALL BUTTONS*/
+            /*TODO*/
+            pairDeviceListener.onResultOpenPairDevice();
         }
     }
 
@@ -287,50 +297,6 @@ public class DashboardFragment extends Fragment {
         messageToSend = msg;
         startConnection.execute();
     }
-
-    /**
-     * Start Connection to server
-     */
-    public class startConnection extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                /*Start a new Connection*/
-                myConnection = new BluetoothConnection(myDevice);
-                myConnection.start();
-                if (messageToSend != null) {
-                    //Send a message
-                    myConnection.send(messageToSend);
-                }
-                connected = true;
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.i("Exception", "Failed to Connect");
-                connected = false;
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            if (connected) {
-                if (messageToSend == null) {
-                    updateUIMessage(SUCCESS);
-                } else {
-                    updateUIMessage(SUCCESS_MSG);
-                }
-                myConnection.closeSocket();
-            } else {
-                if (messageToSend == null) {
-                    updateUIMessage(FAILED);
-                } else {
-                    updateUIMessage(FAILED_MSG);
-                }
-            }
-        }
-    }
-
 
     /**
      * Update UI buttons
@@ -348,8 +314,33 @@ public class DashboardFragment extends Fragment {
             case BluetoothEnable:
                 bluetoothImageView.setImageResource(R.drawable.ic_bluetooth_enabled);
                 bluetoothImageView.setContentDescription("Bluetooth is Enable");
-                createToast("Bluetooth is Enable");
+                doorButton.setEnabled(true);
+                option2Button.setEnabled(true);
+                option3Button.setEnabled(true);
+                shutdownBTN.setEnabled(true);
+                micButton.setEnabled(true);
                 break;
+            case BluetoothNOTEnable:
+                doorButton.setEnabled(false);
+                option2Button.setEnabled(false);
+                option3Button.setEnabled(false);
+                shutdownBTN.setEnabled(false);
+                micButton.setEnabled(false);
+                //Update bluetooth logo
+                bluetoothImageView.setImageResource(R.drawable.ic_bluetooth_disabled);
+                bluetoothImageView.setContentDescription("Bluetooth is Not Enable");
+                break;
+        }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof pairDeviceListener) {
+            pairDeviceListener = (pairDeviceListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement pairDeviceListener");
         }
     }
 
@@ -397,6 +388,63 @@ public class DashboardFragment extends Fragment {
         destroyed = true;
         if (myConnection != null) {
             myConnection.closeSocket();
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        pairDeviceListener = null;
+    }
+
+    /**
+     * Interface used in MainActivity to update the Fragments
+     */
+    public interface pairDeviceListener {
+        void onResultOpenPairDevice();
+    }
+
+    /**
+     * Start Connection to server
+     */
+    public class startConnection extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                /*Start a new Connection*/
+                if (myDevice == null) return null;
+                myConnection = new BluetoothConnection(myDevice);
+                myConnection.start();
+                if (messageToSend != null) {
+                    //Send a message
+                    myConnection.send(messageToSend);
+                }
+                connected = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.i("Exception", "Failed to Connect");
+                connected = false;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (connected) {
+                if (messageToSend == null) {
+                    updateUIMessage(SUCCESS);
+                } else {
+                    updateUIMessage(SUCCESS_MSG);
+                }
+                myConnection.closeSocket();
+            } else {
+                if (messageToSend == null) {
+                    updateUIMessage(FAILED);
+                } else {
+                    updateUIMessage(FAILED_MSG);
+                }
+            }
         }
     }
 }//EOF Class
