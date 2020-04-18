@@ -67,11 +67,12 @@
     <string name="password_digits">Password must include at least one digit</string>
     <string name="password_whiteSpaces">No white spaces allowed</string>
     <string name="password_characters">Password must be at least 6 characters long</string>
-    <string name="take_me_to_the_door">Take me to the Door.</string>
+    <string name="take_me_to_the_door">Take me to the Door</string>
     <string name="take_me_to_option_2">Take me to Option 2</string>
     <string name="take_me_to_option_3">Take me to Option 3</string>
     <string name="take_me_to_option_4">Take me to option 4</string>
     <string name="shutdown_robot">Shutdown Robot</string>
     <string name="select_microphone">Select Microphone</string>
     <string name="mic_description_dashboard">Voice Recognition is not Available. Microphone</string>
+    <string name="go_to_docking_station">Go To Docking Station</string>
 </resources>
