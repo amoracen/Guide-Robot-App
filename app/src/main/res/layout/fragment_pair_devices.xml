@@ -12,7 +12,7 @@
     android:paddingTop="25dp"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
-    tools:context=".ui.dashboardactivity.BluetoothFragment">
+    tools:context=".ui.dashboardactivity.PairDevicesFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
