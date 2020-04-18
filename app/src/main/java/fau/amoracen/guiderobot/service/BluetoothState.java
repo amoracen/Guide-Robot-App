@@ -39,10 +39,24 @@ public class BluetoothState {
      * Checking if Bluetooth is Enabled
      */
     public boolean checkBluetoothState() {
-        if(bluetoothAdapter == null){
+        if (bluetoothAdapter == null) {
             return false;
         }
         return bluetoothAdapter.isEnabled();
+    }
+
+    /**
+     * Start searching for devices
+     */
+    public void startDiscovery() {
+        bluetoothAdapter.startDiscovery();
+    }
+
+    /**
+     * Cancel search for devices
+     */
+    public void cancelDiscovery() {
+        bluetoothAdapter.cancelDiscovery();
     }
 
     /**
@@ -70,5 +84,9 @@ public class BluetoothState {
             }
         }
         return null;
+    }
+
+    public BluetoothAdapter getBluetoothAdapter() {
+        return bluetoothAdapter;
     }
 }
