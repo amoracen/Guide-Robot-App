@@ -1,12 +1,8 @@
 package fau.amoracen.guiderobot.ui.dashboardactivity;
 
 
-import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -20,38 +16,18 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import fau.amoracen.guiderobot.R;
-import fau.amoracen.guiderobot.service.BluetoothState;
 import fau.amoracen.guiderobot.service.Firebase;
 import fau.amoracen.guiderobot.ui.mainactivity.MainActivity;
 
 /**
  * Dashboard displays the bottom navigation and updates fragments
  */
-public class DashboardActivity extends AppCompatActivity {
-
+public class DashboardActivity extends AppCompatActivity implements DashboardFragment.pairDeviceListener {
 
     private boolean doubleBackToExitPressedOnce = false;
     private Firebase myFirebase;
-    private BluetoothState bluetoothState;
     private boolean pairFragment = false;
     private static final int REQUEST_ACCESS_COARSE_LOCATION = 1;
-    private static final int REQUEST_ENABLE_BLUETOOTH_Activity = 1;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
-        //Firebase
-        myFirebase = new Firebase();
-        //Reference to bottomNavigationView
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
-        //Get bluetooth adapter
-        bluetoothState = BluetoothState.getInstance(BluetoothAdapter.getDefaultAdapter());
-        //Start AsyncTask to check bluetooth
-        checkBluetoothState checkBluetooth = new checkBluetoothState();
-        checkBluetooth.execute();
-    }//EOF onCreate
 
     /**
      * Navigate between Fragments
@@ -67,7 +43,7 @@ public class DashboardActivity extends AppCompatActivity {
                             pairFragment = false;
                             break;
                         case R.id.nav_bluetooth:
-                            selectedFragment = new BluetoothFragment();
+                            selectedFragment = new PairDevicesFragment();
                             pairFragment = true;
                             break;
                         case R.id.nav_setting:
@@ -80,6 +56,18 @@ public class DashboardActivity extends AppCompatActivity {
                     return true;
                 }
             };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dashboard);
+        //Firebase
+        myFirebase = new Firebase();
+        //Reference to bottomNavigationView
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
+    }//EOF onCreate
 
 
     @Override
@@ -110,41 +98,11 @@ public class DashboardActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Check if bluetooth is supported and enabled
-     */
-    public class checkBluetoothState extends AsyncTask<Void, Void, Void> {
-        private boolean bluetoothSupported = false;
-        private boolean bluetoothEnabled = false;
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            if (bluetoothState.BluetoothSupported()) {
-                bluetoothSupported = true;
-            } else {
-                return null;
-            }
-            bluetoothEnabled = bluetoothState.checkBluetoothState();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            if (!bluetoothSupported) {
-                createToast("Bluetooth is not supported on your device!");
-                //Create a new Dashboard Fragment
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
-            } else {
-                if (bluetoothEnabled) {
-                    checkPairedDevices();
-                } else {
-                    startBluetoothIntent();
-                }
-            }
-        }
+    @Override
+    public void onResultOpenPairDevice() {
+        //Create a new Pair Fragment
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PairDevicesFragment()).commit();
     }
-
 
     /**
      * Create a Toast message
@@ -154,53 +112,6 @@ public class DashboardActivity extends AppCompatActivity {
     public void createToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
-
-    /**
-     * Start Intent to request permission to use Bluetooth
-     */
-    public void startBluetoothIntent() {
-        Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-        startActivityForResult(enableIntent, REQUEST_ENABLE_BLUETOOTH_Activity);
-    }
-
-    /**
-     * Checking user response
-     *
-     * @param requestCode integer
-     * @param resultCode  integer
-     * @param data        Intent
-     */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_ENABLE_BLUETOOTH_Activity) {
-            if (resultCode == Activity.RESULT_OK) {
-                checkPairedDevices();
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //createToast("Bluetooth is not Enabled");
-                //Create a new Dashboard Fragment
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
-            }
-        }
-    }
-
-    /**
-     * Checking if the devices were paired
-     */
-    public void checkPairedDevices() {
-        BluetoothDevice myDevice = bluetoothState.getBluetoothDevice();
-        if (myDevice != null) {
-            //Create a new Dashboard Fragment
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
-        } else {
-            createToast("There are not paired devices");
-            pairFragment = true;
-            //Create a new Pair Fragment
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new BluetoothFragment()).commit();
-        }
-    }
-
 
     /**
      * After checkCoarseLocationPermission's result is returned
