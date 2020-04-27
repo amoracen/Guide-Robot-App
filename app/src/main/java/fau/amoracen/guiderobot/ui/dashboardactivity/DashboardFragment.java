@@ -40,17 +40,18 @@ public class DashboardFragment extends Fragment {
     private static final int REQUEST_ENABLE_BLUETOOTH_Fragment = 2;
     private static final String BluetoothNOTEnable = "BluetoothNOTEnable";
     private ImageView bluetoothImageView;
-    /*Bluetooth*/
-    private BluetoothConnection myConnection;
+    private static final String MESSAGE_RECEIVED = "MESSAGE_RECEIVED";
     private BluetoothDevice myDevice;
     private BluetoothState bluetoothState;
     private boolean destroyed;
     private boolean connected = false;
-    private String messageToSend;
+    /*Bluetooth*/
+    private BluetoothConnection connection;
     private static final String SUCCESS = "CONNECTED";
     private static final String SUCCESS_MSG = "MESSAGE_SENT";
     private static final String FAILED = "NOT CONNECTED";
     private static final String FAILED_MSG = "MESSAGE_FAILED";
+    private String messageToSend, messageReceived;
     private static final String BluetoothEnable = "BluetoothEnable";
     /*UI Widgets*/
     private TextView bluetoothTextView, feedbackTextView;
@@ -75,7 +76,6 @@ public class DashboardFragment extends Fragment {
         bluetoothTextView = view.findViewById(R.id.bluetoothTextView);
         feedbackTextView = view.findViewById(R.id.feedback_text_view);
         destroyed = false;
-
         doorButton = view.findViewById(R.id.doorButton);
         doorButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,7 +282,6 @@ public class DashboardFragment extends Fragment {
             setConnection(null);
         } else {
             createToast("There are not paired devices");
-            /*TODO*/
             pairDeviceListener.onResultOpenPairDevice();
         }
     }
@@ -293,6 +292,11 @@ public class DashboardFragment extends Fragment {
      * @param msg a string
      */
     private void setConnection(String msg) {
+        if (connection != null) {
+            connection.closeSocket();
+        }
+        feedbackTextView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        feedbackTextView.setText("Starting Connection..");
         startConnection startConnection = new startConnection();
         messageToSend = msg;
         startConnection.execute();
@@ -365,7 +369,7 @@ public class DashboardFragment extends Fragment {
                 feedbackTextView.setText(R.string.connection_success);
                 break;
             case FAILED:
-                myConnection = null;
+                this.connection = null;
                 //Update message
                 feedbackTextView.setVisibility(View.VISIBLE);
                 feedbackTextView.setText(R.string.connection_failed);
@@ -375,9 +379,18 @@ public class DashboardFragment extends Fragment {
                 feedbackTextView.setText(R.string.command_sent);
                 break;
             case FAILED_MSG:
-                myConnection = null;
+                this.connection = null;
                 feedbackTextView.setVisibility(View.VISIBLE);
                 feedbackTextView.setText(R.string.command_failed);
+                break;
+            case MESSAGE_RECEIVED:
+                this.connection = null;
+                if (messageReceived != null) {
+                    feedbackTextView.setVisibility(View.VISIBLE);
+                    feedbackTextView.setText(messageReceived);
+                } else {
+                    feedbackTextView.setText("Failed to Received Message");
+                }
                 break;
         }
     }
@@ -386,8 +399,8 @@ public class DashboardFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         destroyed = true;
-        if (myConnection != null) {
-            myConnection.closeSocket();
+        if (connection != null) {
+            connection.closeSocket();
         }
     }
 
@@ -413,11 +426,14 @@ public class DashboardFragment extends Fragment {
             try {
                 /*Start a new Connection*/
                 if (myDevice == null) return null;
-                myConnection = new BluetoothConnection(myDevice);
+                BluetoothConnection myConnection = new BluetoothConnection(myDevice);
                 myConnection.start();
+                connection = myConnection;
                 if (messageToSend != null) {
                     //Send a message
                     myConnection.send(messageToSend);
+                    updateUIMessage(SUCCESS_MSG);
+                    messageReceived = myConnection.receive();
                 }
                 connected = true;
             } catch (IOException e) {
@@ -435,9 +451,9 @@ public class DashboardFragment extends Fragment {
                 if (messageToSend == null) {
                     updateUIMessage(SUCCESS);
                 } else {
-                    updateUIMessage(SUCCESS_MSG);
+                    updateUIMessage(MESSAGE_RECEIVED);
                 }
-                myConnection.closeSocket();
+                if (connection != null) connection.closeSocket();
             } else {
                 if (messageToSend == null) {
                     updateUIMessage(FAILED);
