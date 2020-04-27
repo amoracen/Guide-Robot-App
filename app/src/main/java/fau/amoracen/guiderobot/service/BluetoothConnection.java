@@ -15,7 +15,7 @@ import java.util.UUID;
 public class BluetoothConnection extends Thread {
 
     private BluetoothDevice myDevice;
-    private final BluetoothSocket mmSocket;
+    private BluetoothSocket mmSocket;
     // MY_UUID is the app's UUID string, also used in the server code.
     private final String MY_UUID = "94f39d29-7d6d-437d-973b-fba39e49d4ee";
 
@@ -31,6 +31,7 @@ public class BluetoothConnection extends Thread {
             Log.e("Fail", "Socket's create() method failed", e);
         }
         mmSocket = tmp;
+        assert mmSocket != null;
         mmSocket.connect();
     }
 
@@ -39,19 +40,22 @@ public class BluetoothConnection extends Thread {
         mmOutputStream.write(msg.getBytes());
     }
 
-     public void receive() throws IOException {
-            InputStream mmInputStream = mmSocket.getInputStream();
-            byte[] buffer = new byte[256];
-            int bytes;
-            try {
-                bytes = mmInputStream.read(buffer);
-                String readMessage = new String(buffer, 0, bytes);
-                Log.d("Received", "Message: " + readMessage);
-                mmSocket.close();
-            } catch (IOException e) {
-                Log.e("IOException", "Problems occurred!");
-            }
+    public String receive() throws IOException {
+        InputStream mmInputStream = mmSocket.getInputStream();
+        byte[] buffer = new byte[256];
+        int bytes;
+        try {
+            bytes = mmInputStream.read(buffer);
+            String readMessage = new String(buffer, 0, bytes);
+            Log.d("Received", "Message: " + readMessage);
+            mmSocket.close();
+            mmSocket = null;
+            return readMessage;
+        } catch (IOException e) {
+            Log.e("IOException", "Problems occurred!");
         }
+        return null;
+    }
 
 
     public void closeSocket() {
